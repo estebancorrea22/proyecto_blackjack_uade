@@ -8,6 +8,19 @@ Crear una interfaz intuitiva donde los jugadores puedan gestionar su saldo y par
 Garantizar reglas de juego claras y balanceadas, manteniendo la esencia del Blackjack.
 
 
+## Scripts:
+
+Python: 
+```bash
+    uvicorn main:app --reload
+```
+
+React: 
+```bash
+    npm install //Primera vez
+    npm run dev
+```
+
 ## Funcionalidades
 
 - Registro de usuario con nombre único y saldo de UADEcoins.
