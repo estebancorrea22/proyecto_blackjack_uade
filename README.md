@@ -88,3 +88,10 @@ React:
 **Interfaz:** React
 
 **API:** Python, FastAPI
+
+
+## To-do:
+
+- Funciones basicas
+
+- Interfaz de juego
