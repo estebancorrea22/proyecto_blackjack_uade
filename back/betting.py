@@ -17,23 +17,14 @@ def double_bet(playerCoins, currentBet):
 def check_end_of_hand(playerCoins, currentBet, croupier_busted, player_busted, player_points, croupier_points, player_did_blackjack, croupier_did_blackjack):
     if player_did_blackjack and croupier_did_blackjack:
         playerCoins += currentBet
-        currentBet = 0
     elif player_did_blackjack:
         playerCoins += currentBet * 2.5
-        currentBet = 0
     elif croupier_busted:
         playerCoins += currentBet * 2
-        currentBet = 0
-    elif player_busted:
-        currentBet = 0
     elif player_points > croupier_points:
         playerCoins += currentBet * 2
-        currentBet = 0
-    elif player_points < croupier_points:
-        currentBet = 0
     elif player_points == croupier_points:
         playerCoins += currentBet
-        currentBet = 0
-    else:
-        currentBet = 0
+
+    currentBet = 0
     return playerCoins, currentBet
