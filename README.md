@@ -1,5 +1,5 @@
 
-# Blackjack UADE
+# Blackjack Deci UADE
 
 Desarrollar un sistema de juego que simule una experiencia de casino de forma virtual.
 
