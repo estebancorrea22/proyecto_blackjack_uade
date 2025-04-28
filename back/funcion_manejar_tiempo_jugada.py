@@ -1,4 +1,4 @@
-from tirada_dados import tirar_dados
+from tirada_dados import tirar_dado
 
 import time
 
@@ -11,4 +11,4 @@ def manejar_tiempo(jugador, tiempo_max=6):
 
     if end - start > tiempo_max:
         print("Se pasó el tiempo.")
-        jugador['mano'].append(tirar_dados())
+        jugador['mano'].append(tirar_dado())
