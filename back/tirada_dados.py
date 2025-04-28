@@ -2,7 +2,7 @@ import random
 
 dados_tirados=[]
 
-sumar_dados= lambda dados: sum(dados)+(10 if 1 in dados and sum(dados) + 10 <= 21 else 0)
+sumar_dados= lambda dados: sum(dados)+(10 if 1 in dados and sum(dados) + 10 <= 21 else 1)
 
 def tirar_dado(veces=1):
     nuevos_dado=[]
