@@ -81,8 +81,3 @@ def mostrar_usuarios():
     for usuario in usuarios:
         print(f"ID: {usuario['id']}, Nombre: {usuario['nombre']}, Correo: {usuario['correo']}, Saldo: {usuario['saldo']}")
 
-registro_usuario()
-login_usuario()
-mostrar_usuarios()
-recargar_saldo_tarjeta(usuarios)
-calcular_saldo_total(usuarios)
