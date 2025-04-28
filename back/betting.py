@@ -19,7 +19,10 @@ def check_end_of_hand(playerCoins, currentBet, croupier_busted, player_busted, p
         playerCoins += currentBet
     elif player_did_blackjack:
         playerCoins += currentBet * 2.5
-    elif croupier_busted:
+    elif player_busted:
+        currentBet = 0
+        return playerCoins, currentBet
+    elif croupier_busted and not player_busted:
         playerCoins += currentBet * 2
     elif player_points > croupier_points:
         playerCoins += currentBet * 2
