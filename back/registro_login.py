@@ -1,4 +1,4 @@
-from gestion_saldo import calcular_saldo_total, recargar_saldo_tarjeta
+from gestion_saldo import  cargar_saldo_24hrs, mostrar_saldo_usuario
 from datetime import datetime
 
 
@@ -57,7 +57,6 @@ def login_usuario():
     correo = input("Ingrese su correo: ")
     contrasena = input("Ingrese su contraseña: ")
 
-    # Usar filter para buscar el usuario
     usuario = next(filter(lambda u: u['correo'] == correo and u['contrasena'] == contrasena, usuarios),None)
     
     if usuario:
