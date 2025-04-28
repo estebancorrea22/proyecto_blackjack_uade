@@ -1,4 +1,4 @@
-from proyecto_blackjack_uade.back.tirada_dados import tirar_dado
+from tirada_dados import tirar_dado
 
 def sumar_dados(mano):
     return sum(mano)

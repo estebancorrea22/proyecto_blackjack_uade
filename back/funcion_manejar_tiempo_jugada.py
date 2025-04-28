@@ -1,4 +1,4 @@
-from proyecto_blackjack_uade.back.Tirar_dados import tirar_dados
+from tirada_dados import tirar_dados
 
 import time
 
