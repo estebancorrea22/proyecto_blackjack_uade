@@ -1,7 +1,10 @@
 from tirada_dados import tirar_dado
 
 """
-
+Este código representa el turno del crupier,  el crupier tira dados uno por uno,
+suma sus valores y sigue tirando mientras tenga menos de 17 puntos. Si llega a superar
+los 21 puntos pierde automaticamente.Ademas muestra en pantalla cada tirada y el total
+acumulado. 
 """
 def dealer_turn():
     total = 0
