@@ -29,7 +29,7 @@ def registro_usuario():
     validaciones = [
         (lambda e: e >= 18, "Debes ser mayor de edad"),
         (lambda n: len(n) > 0, "Nombre no válido"),
-        (lambda c: c.endswith("@hotmail.com"), "Correo debe ser @hotmail.com"),
+        (lambda c: c.endswith("@gmail.com"), "Correo debe ser @gmail.com"),
         (lambda c: not any(u['correo'] == c for u in usuarios), "Correo ya existe")
     ]
     
