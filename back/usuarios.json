@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "nombre": "da",
+        "correo": "da@hotmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 1000,
+        "edad": 21,
+        "ultima_recarga": "2025-06-22 20:37:58.945399",
+        "ultimo_login": null,
+        "historial": []
+    },
+    {
+        "id": 2,
+        "nombre": "dd",
+        "correo": "d@gmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 1000,
+        "edad": 21,
+        "ultima_recarga": "2025-06-22 21:23:27.677280",
+        "ultimo_login": null,
+        "historial": []
+    }
+]
