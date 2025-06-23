@@ -1,3 +1,4 @@
+from tirada_dados import sumar_dados, tirar_dado
 
 def realizar_apuesta(usuario):
     """Realiza apuesta con validación de saldo"""
@@ -14,6 +15,32 @@ def realizar_apuesta(usuario):
             return apuesta, {**usuario, 'saldo': saldo - apuesta}
         except ValueError:
             print("Ingrese número válido")
+
+
+def doblar_apuesta(mano, apuesta_actual, usuario):
+    """
+    El jugador decide duplicar la apuesta y lanzar un dado adicional.
+    El crupier debe aceptar la apuesta automáticamente.
+    """
+    saldo_restante = usuario['saldo']
+    if saldo_restante < apuesta_actual:
+        print("No tienes saldo suficiente para doblar la apuesta.")
+        return mano, apuesta_actual, sumar_dados(mano), "saldo_insuficiente", usuario
+
+    try:
+        nueva_apuesta = apuesta_actual * 2
+        usuario['saldo'] -= apuesta_actual
+        print(f"Apuesta duplicada a ${nueva_apuesta}")        
+        nuevo_dado = tirar_dado(1)[0]
+        mano.append(nuevo_dado)
+        total = sumar_dados(mano)
+        estado = "pasado" if total > 21 else "jugando"
+        print(f"\nDado adicional: {nuevo_dado} - Total: {total}")
+        return mano, nueva_apuesta, total, estado, usuario
+    except Exception as e:
+        print(f"Error al doblar la apuesta: {e}")
+        return mano, apuesta_actual, sumar_dados(mano), "error", usuario
+
 
 def calcular_resultado(apuesta, res_jug, res_crup, usuario):
     """
@@ -40,30 +67,3 @@ def calcular_resultado(apuesta, res_jug, res_crup, usuario):
 
     usuario['saldo'] += resultado[1]
     return f"Resultado: {resultado[0]}", usuario
-
-
-
-
-#CAROLINA
-# def double_bet(hand, current_bet):
-#     """
-#     El jugador decide duplicar la apuesta y lanzar un dado adicional.
-#     El crupier debe aceptar la apuesta automáticamente.
-#     Parámetros: hand (list): Mano actual de dados.
-#         current_bet (int o float): Monto actual apostado.
-#     Retorna:tuple: (mano_actualizada, nueva_apuesta, total_tras_tirada, estado)
-#             estado: 'bust' si el total supera 21, de lo contrario 'continue'
-#     """
-#     try:
-#         new_bet = current_bet * 2
-#         new_die = roll_dice(1)[0]
-#         hand.append(new_die)
-#         total = sum_dice(hand)
-#         status = "bust" if total > 21 else "continue"
-#         return hand, new_bet, total, status
-#     except Exception as e:
-#         print(f"Error doubling bet: {e}")
-#         return hand, current_bet, sum_dice(hand), "error"
-
-
-
