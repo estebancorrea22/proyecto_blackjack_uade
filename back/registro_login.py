@@ -15,7 +15,7 @@ def validar_contrasena(contrasena):
     Valida la contraseña usando expresiones regulares y operador in.
     Requiere:
     - 8+ caracteres
-    - 1 mayúscula
+    - 1 mayúscula   
     - 1 carácter especial
     """
     caracteres_especiales = "!@#$%^&*(),.?\":{}|<>"

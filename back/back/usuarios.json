@@ -1,0 +1,13 @@
+[
+    {
+        "id": 1,
+        "nombre": "Estebi",
+        "correo": "estebi@hotmail.com",
+        "contrasena": "Ercc2323!",
+        "saldo": 1000,
+        "edad": 23,
+        "ultima_recarga": "2025-06-23 01:07:25.713479",
+        "ultimo_login": null,
+        "historial": []
+    }
+]

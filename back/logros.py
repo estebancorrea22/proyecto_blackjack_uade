@@ -41,9 +41,10 @@ def verificar_logros(usuario, evento, contexto=None):
             logros_desbloqueados.append('ganador_nato')
     
     elif evento == 'blackjack':
-        if contexto and sum(contexto) == 21 and len(contexto) == 2:
+        if contexto and isinstance(contexto, list) and sum(contexto) == 21 and len(contexto) == 2:
             if 'blackjack' not in usuario.get('logros', {}):
                 logros_desbloqueados.append('blackjack')
+
     
     elif evento == 'apuesta_alta':
         if contexto and contexto >= 1000:

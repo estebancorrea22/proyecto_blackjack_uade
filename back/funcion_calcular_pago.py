@@ -17,21 +17,3 @@ def calcular_pago(resultado, apuesta, blackjack=False, seguro_apostado=0, crupie
             total_ganado -= seguro_apostado
 
     return total_ganado
-
-# Jugador gana normalmente
-print(calcular_pago("victoria", 1000))
-
-# Jugador hace Blackjack
-print(calcular_pago("blackjack", 1000))
-
-# Jugador empata
-print(calcular_pago("empate", 1000)) 
-
-# Jugador pierde
-print(calcular_pago("derrota", 1000))
-
-# Jugador apuesta seguro, y crupier tiene Blackjack
-print(calcular_pago("derrota", 1000, seguro_apostado=500, crupier_tiene_blackjack=True))
-
-# Jugador apuesta seguro, pero crupier no tiene Blackjack
-print(calcular_pago("victoria", 1000, seguro_apostado=500, crupier_tiene_blackjack=False))
