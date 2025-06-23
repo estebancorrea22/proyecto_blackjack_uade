@@ -124,24 +124,58 @@ def mostrar_reglas():
     print("3. Si no, gana quien tenga más puntos")
     print("4. El crupier debe pedir dados hasta llegar a 17\n")
 
-def turno_jugador():
+# def turno_jugador():
+#     mano = tirar_dado(2)
+#     print(f"\nTus dados: {mano[0]} y {mano[1]} - Total: {sum(mano)}")
+    
+#     while True:
+#         estado, total = evaluar_mano(mano)
+#         if estado != "jugando":
+#             return estado, total, mano
+        
+#         opcion = input("¿Quieres otro dado? (s/n): ").lower()
+#         if opcion == 's':
+#             nuevo_dado = tirar_dado(1)[0]
+#             mano.append(nuevo_dado)
+#             print(f"Nuevo dado: {nuevo_dado} - Total: {sum(mano)}")
+#         elif opcion == 'n':
+#             return "plantado", total, mano
+#         else:
+#             print("Opción inválida. Ingresa 's' o 'n'.")
+
+def turno_jugador(usuario,apuesta):
     mano = tirar_dado(2)
     print(f"\nTus dados: {mano[0]} y {mano[1]} - Total: {sum(mano)}")
     
     while True:
-        estado, total = evaluar_mano(mano)
-        if estado != "jugando":
-            return estado, total, mano
+        print("1.Tirar otro dado\n2.Doblar la apuesta\n3.Plantarse")
+        opcion = input("Ingrese su opción:").lower()       
         
-        opcion = input("¿Quieres otro dado? (s/n): ").lower()
-        if opcion == 's':
+        if opcion == '1':
             nuevo_dado = tirar_dado(1)[0]
             mano.append(nuevo_dado)
-            print(f"Nuevo dado: {nuevo_dado} - Total: {sum(mano)}")
-        elif opcion == 'n':
-            return "plantado", total, mano
+            total = sum(mano)
+            print(f"Nuevo dado: {nuevo_dado} - Total: {total}")  
+            estado, total = evaluar_mano(mano)
+            if estado != "jugando":
+                return estado, total, mano, apuesta, usuario     
+
+        elif opcion == '2':
+            mano, nueva_apuesta, total, estado, usuario = doblar_apuesta(mano, apuesta, usuario)
+            apuesta = nueva_apuesta
+            if estado == "saldo_insuficiente":
+                print("No se pudo doblar la apuesta. Elige otra opción.")
+                continue
+            estado, total = evaluar_mano(mano)
+            if estado != "jugando":         
+                return estado, total, mano, apuesta, usuario
+            
+        elif opcion == '3':
+            total = sum(mano)           
+            return "plantado", total, mano, apuesta, usuario 
+               
         else:
-            print("Opción inválida. Ingresa 's' o 'n'.")
+            print("Opción inválida. Ingresa '1', '2' o '3'.")  
 
 def turno_crupier():
     mano = tirar_dado(2)
