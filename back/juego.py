@@ -112,17 +112,18 @@ def jugar_blackjack(usuario):
 
 
 from tirada_dados import tirar_dado, evaluar_mano
-from apuestas import realizar_apuesta
+from apuestas import realizar_apuesta, doblar_apuesta
 from funcion_calcular_pago import calcular_pago  
 from logros import verificar_logros
 from recompensas import aplicar_recompensa, mostrar_logros
+from functools import reduce
 
 def mostrar_reglas():
     print("\n--- REGLAS DEL BLACKJACK ---")
     print("1. Ganas si sacas 21 con tus dos primeros dados (Blackjack)")
     print("2. Pierdes si te pasas de 21")
     print("3. Si no, gana quien tenga más puntos")
-    print("4. El crupier debe pedir dados hasta llegar a 17\n")
+    # print("4. El crupier debe pedir dados hasta llegar a 17\n")
 
 # def turno_jugador():
 #     mano = tirar_dado(2)
@@ -158,7 +159,7 @@ def turno_jugador(usuario,apuesta):
             print(f"Nuevo dado: {nuevo_dado} - Total: {total}")  
             estado, total = evaluar_mano(mano)
             if estado != "jugando":
-                return estado, total, mano, apuesta, usuario     
+                return estado, total, mano, apuesta
 
         elif opcion == '2':
             mano, nueva_apuesta, total, estado, usuario = doblar_apuesta(mano, apuesta, usuario)
@@ -168,11 +169,11 @@ def turno_jugador(usuario,apuesta):
                 continue
             estado, total = evaluar_mano(mano)
             if estado != "jugando":         
-                return estado, total, mano, apuesta, usuario
+                return estado, total, mano, apuesta
             
         elif opcion == '3':
             total = sum(mano)           
-            return "plantado", total, mano, apuesta, usuario 
+            return "plantado", total, mano , apuesta
                
         else:
             print("Opción inválida. Ingresa '1', '2' o '3'.")  
@@ -184,7 +185,7 @@ def turno_crupier():
     while sum(mano) < 17:
         mano.extend(tirar_dado(1))
     print(f"Crupier revela su mano: {', '.join(map(str, mano))} - Total: {sum(mano)}")
-    return evaluar_mano(mano), mano
+    return evaluar_mano(mano), sum(mano)
 
 def jugar_blackjack(usuario):
     print(f"\n¡Bienvenido al Blackjack, {usuario['nombre']}!")
@@ -202,12 +203,12 @@ def jugar_blackjack(usuario):
             break
         
         if apuesta >= 1000:
-            logros_desbloqueados = verificar_logros(usuario, 'apuesta_alta', apuesta)
+            logros_desbloqueados = verificar_logros(usuario, 'arriesgado', apuesta)
             for logro_id in logros_desbloqueados:
                 aplicar_recompensa(usuario, logro_id)
                 print(f"\n¡Logro desbloqueado: {logro_id}!")
 
-        estado_jugador, total_jugador, mano_jugador = turno_jugador()
+        estado_jugador, total_jugador, mano_jugador, apuesta = turno_jugador(usuario, apuesta)
 
         if estado_jugador == "blackjack":
             logros_desbloqueados = verificar_logros(usuario, 'blackjack', mano_jugador)
@@ -221,9 +222,9 @@ def jugar_blackjack(usuario):
             estado_crupier, total_crupier = "sin_jugar", 0
 
         # Determinar resultado del juego
-        if estado_jugador == "pasado":
+        if estado_jugador == "pasado" or total_jugador > 21:
             resultado = "derrota"
-        elif estado_crupier == "pasado":
+        elif estado_crupier == "pasado" or total_crupier > 21:
             resultado = "victoria"
         elif total_jugador > total_crupier:
             resultado = "victoria"
@@ -237,16 +238,16 @@ def jugar_blackjack(usuario):
             resultado = "empate"
 
         ganancia = calcular_pago(resultado, apuesta)
+
+        print(f'Ganancia: {ganancia}')
+        print(f'Saldo: {usuario['saldo']}')
         usuario["saldo"] += ganancia
 
-        print(f"\nResultado de la ronda: {resultado.upper()} (+{ganancia} saldo)")
+        print(f"\nResultado de la ronda: {resultado.upper()} ({"+" if ganancia > 0 else ""}{ganancia}$ saldo)")
         print(f"Nuevo saldo: ${usuario['saldo']:,}")
 
         if resultado in ["victoria", "blackjack"]:
             logros_desbloqueados = verificar_logros(usuario, 'ganar_juego')
-            for logro_id in logros_desbloqueados:
-                aplicar_recompensa(usuario, logro_id)
-                print(f"\n¡Logro desbloqueado: {logro_id}!")
 
         if usuario['saldo'] <= 0:
             print("\n¡Te quedaste sin fondos!")

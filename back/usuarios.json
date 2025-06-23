@@ -8,7 +8,18 @@
         "edad": 21,
         "ultima_recarga": "2025-06-22 20:37:58.945399",
         "ultimo_login": null,
-        "historial": []
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
+                }
+            ]
+        }
     },
     {
         "id": 2,
@@ -19,6 +30,52 @@
         "edad": 21,
         "ultima_recarga": "2025-06-22 21:23:27.677280",
         "ultimo_login": null,
-        "historial": []
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
+                }
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "nombre": "Facundo",
+        "correo": "seibfacundo@gmail.com",
+        "contrasena": "Fac$2023$",
+        "saldo": 8500,
+        "edad": 24,
+        "ultima_recarga": "2025-06-23T11:25:52.901999",
+        "ultimo_login": "2025-06-23T14:19:42.255140",
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [
+                {
+                    "id": 1,
+                    "nombre": "Primer juego",
+                    "descripcion": "Jugar por primera vez",
+                    "recompensa": 500
+                },
+                {
+                    "id": 4,
+                    "nombre": "Arriesgado",
+                    "descripcion": "Apostar m\u00e1s de 1000 en una jugada",
+                    "recompensa": 700
+                }
+            ],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
+                }
+            ]
+        }
     }
 ]

@@ -12,7 +12,7 @@ def realizar_apuesta(usuario):
             if apuesta < 0 or apuesta > saldo:
                 print("Apuesta inválida")
                 continue
-            return apuesta, {**usuario, 'saldo': saldo - apuesta}
+            return apuesta, {**usuario, 'saldo': saldo}
         except ValueError:
             print("Ingrese número válido")
 
@@ -29,7 +29,7 @@ def doblar_apuesta(mano, apuesta_actual, usuario):
 
     try:
         nueva_apuesta = apuesta_actual * 2
-        usuario['saldo'] -= apuesta_actual
+        usuario['saldo']
         print(f"Apuesta duplicada a ${nueva_apuesta}")        
         nuevo_dado = tirar_dado(1)[0]
         mano.append(nuevo_dado)

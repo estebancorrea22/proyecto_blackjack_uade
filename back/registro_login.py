@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import json
+import re
 
 usuarios = []
 usuario_actual = None
@@ -29,7 +30,7 @@ def registro_usuario():
     validaciones = [
         (lambda e: e >= 18, "Debes ser mayor de edad"),
         (lambda n: len(n) > 0, "Nombre no válido"),
-        (lambda c: c.endswith("@gmail.com"), "Correo debe ser @gmail.com"),
+        (lambda c: re.match(r'^.+@.+\..+$', c) is not None, "Correo no es valido. Intentelo nuevamente"),
         (lambda c: not any(u['correo'] == c for u in usuarios), "Correo ya existe")
     ]
     
@@ -47,7 +48,7 @@ def registro_usuario():
         print(next(v[1] for v in validaciones[2:] if not v[0](correo)))
         return
 
-    contrasena = input("Contraseña: ")
+    contrasena = input("Contraseña: (La contraseña debe incluir 1 mayuscula, 1 caracter especial y debe ser de por lo menos 8 caracteres)")
     if not validar_contrasena(contrasena):
         print("Contraseña no cumple requisitos")
         return
@@ -62,7 +63,8 @@ def registro_usuario():
         "edad": edad,
         "ultima_recarga": datetime.now(),
         "ultimo_login": None,
-        "historial": []  # Lista para historial de juegos
+        "historial": [],  # Lista para historial de juegos
+        "logros": []
     }
     
     usuarios.append(nuevo_usuario)
@@ -148,22 +150,40 @@ def mostrar_usuarios():
         fecha_recarga = u['ultima_recarga'].strftime("%d-%m-%Y - %H:%M")
         print(f"{u['id']} | {u['nombre']} | {u['correo']} | {u['saldo']} | {fecha_recarga}")
 
-def guardar_usuarios_json():
+def guardar_usuarios_json(usuario, filename='back/usuarios.json'):
     """
-    Guarda usuarios en archivo JSON.
-    Incluye todos los campos relevantes del usuario.
+    Guarda un usuario en el archivo JSON, actualizándolo si ya existe por ID.
+    Convierte datetime a string para serialización.
     """
+    os.makedirs('back', exist_ok=True)
+
     try:
-        os.makedirs('back', exist_ok=True)
-        with open('back/usuarios.json', 'w') as f:
-            json.dump(usuarios, f, default=str, indent=4)
-            for u in usuarios:
-                u['ultima_recarga'] = u['ultima_recarga'].isoformat()
-                if u['ultimo_login']:
-                    u['ultimo_login'] = u['ultimo_login'].isoformat()
-        print("Usuarios guardados en formato JSON.")
+        with open(filename, 'r', encoding='utf-8') as f:
+            usuarios = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        usuarios = []
+
+    usuario_serializable = usuario.copy()
+    if isinstance(usuario_serializable.get('ultima_recarga'), datetime):
+        usuario_serializable['ultima_recarga'] = usuario_serializable['ultima_recarga'].isoformat()
+    if isinstance(usuario_serializable.get('ultimo_login'), datetime):
+        usuario_serializable['ultimo_login'] = usuario_serializable['ultimo_login'].isoformat()
+
+    actualizado = False
+    for i, u in enumerate(usuarios):
+        if u.get('id') == usuario_serializable['id']:
+            usuarios[i] = usuario_serializable
+            actualizado = True
+            break
+    if not actualizado:
+        usuarios.append(usuario_serializable)
+
+    try:
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(usuarios, f, indent=4)
+        print("Usuario guardado correctamente.")
     except Exception as e:
-        print(f"Error al guardar usuarios: {str(e)}")
+        print(f"Error al guardar el usuario: {str(e)}")
 
 # def guardar_usuarios():
 #     """
@@ -279,7 +299,7 @@ while True:
         if usuario_actual:
             from juego import jugar_blackjack
             usuario_actual = jugar_blackjack(usuario_actual)
-            guardar_usuarios_json()# Guarda los cambios en el saldo
+            guardar_usuarios_json(usuario_actual)# Guarda los cambios en el saldo
             input("\nPresione Enter para continuar...")
         else:
             print("Saliendo del sistema...")

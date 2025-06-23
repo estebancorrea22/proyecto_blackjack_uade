@@ -14,10 +14,7 @@ def aplicar_recompensa(usuario, logro_id):
     if logro_id not in usuario['logros']:
         recompensa = LOGROS[logro_id]['recompensa']
         usuario['saldo'] += recompensa
-        usuario['logros'][logro_id] = {
-            'fecha': datetime.now().isoformat(),
-            'reclamado': True
-        }
+
         return True
     
     return False
@@ -27,15 +24,17 @@ def mostrar_logros(usuario):
     Muestra los logros del usuario y los disponibles
     """
     print("\n--- TUS LOGROS ---")
-    if 'logros' in usuario and usuario['logros']:
-        for logro_id, detalle in usuario['logros'].items():
-            logro = LOGROS.get(logro_id, {})
-            print(f"{logro.get('nombre', 'Desconocido')}: {logro.get('descripcion', '')}")
-            print(f"Obtenido el: {detalle['fecha']}\n")
+
+    logros_obtenidos = usuario.get('logros', {}).get('logros_obtenidos', [])
+
+    if logros_obtenidos:
+        for logro in logros_obtenidos:
+            print(f"{logro['nombre']}: {logro['descripcion']}")
     else:
         print("Aún no has desbloqueado logros.")
-    
+
     print("\n--- LOGROS DISPONIBLES ---")
-    for logro_id, logro in LOGROS.items():
-        if 'logros' not in usuario or logro_id not in usuario['logros']:
+    for clave, logro in LOGROS.items():
+        ya_obtenido = any(l['id'] == logro['id'] for l in logros_obtenidos)
+        if not ya_obtenido:
             print(f"{logro['nombre']}: {logro['descripcion']} - Recompensa: ${logro['recompensa']}")
