@@ -28,41 +28,6 @@ LOGROS = {
     }
 }
 
-# def verificar_logros(usuario, evento, contexto=None):
-#     """
-#     Verifica si el usuario ha alcanzado algún logro basado en el evento
-#     """
-#     logros_desbloqueados = []
-#     print(f'usuario: {usuario}')
-#     if evento == 'primer_juego':
-#         logro = LOGROS['primer_juego']
-#         if any(l['id'] == logro['id'] for l in usuario['logros']['logros_obtenidos']):
-#             usuario['logros']['logros_obtenidos'].append(logro)
-#             logros_desbloqueados.append(logro['nombre'])
-    
-#     elif evento == 'ganar_juego':
-#         victorias_consecutivas = usuario.get('victorias_consecutivas', 0) + 1
-#         usuario['victorias_consecutivas'] = victorias_consecutivas
-#         if victorias_consecutivas >= 3 and 'ganador_nato' not in usuario.get('logros', {}):
-#             logros_desbloqueados.append('ganador_nato')
-#             usuario['logros'].append(LOGROS['victorias_consecutivas']['id'])
-    
-#     elif evento == 'blackjack':
-#         if contexto and isinstance(contexto, list) and sum(contexto) == 21 and len(contexto) == 2:
-#             if 'blackjack' not in usuario.get('logros', {}):
-#                 logros_desbloqueados.append('blackjack')
-#                 usuario['logros'].append(LOGROS['blackjack']['id'])
-
-    
-#     elif evento == 'apuesta_alta':
-#         if contexto and contexto >= 1000:
-#             if 'arriesgado' not in usuario.get('logros', {}):
-#                 logros_desbloqueados.append('arriesgado')
-#                 usuario['logros'].append(LOGROS['arriesgado']['id'])
-
-    
-#     return logros_desbloqueados
-
 def verificar_logros(usuario, evento, contexto=None):
     """
     Verifica si el usuario ha alcanzado algún logro basado en el evento

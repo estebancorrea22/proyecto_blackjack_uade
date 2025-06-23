@@ -185,25 +185,6 @@ def guardar_usuarios_json(usuario, filename='back/usuarios.json'):
     except Exception as e:
         print(f"Error al guardar el usuario: {str(e)}")
 
-# def guardar_usuarios():
-#     """
-#     Guarda usuarios en archivo usando OS.
-#     Incluye todos los campos relevantes del usuario.
-#     """
-#     try:
-#         os.makedirs('back', exist_ok=True)
-#         with open('back/usuarios.txt', 'w') as f:
-#             for u in usuarios:
-#                 linea = (
-#                     f"{u['id']},{u['nombre']},{u['edad']},"
-#                     f"{u['correo']},{u['saldo']},"
-#                     f"{u['ultima_recarga'].isoformat()},"
-#                     f"{u['ultimo_login'].isoformat() if u['ultimo_login'] else ''},"
-#                     f"{u['contrasena']}\n"
-#                 )
-#                 f.write(linea)
-#     except Exception as e:
-#         print(f"Error al guardar usuarios: {str(e)}")
 
 def cargar_usuarios_json():
     """Carga usuarios desde archivo JSON"""
@@ -222,24 +203,6 @@ def cargar_usuarios_json():
             usuarios = []
     except Exception as e:
         print(f"Error al cargar usuarios: {str(e)}")
-# def cargar_usuarios():
-#     """Carga usuarios desde archivo"""
-#     if os.path.exists('back/usuarios.txt'):
-#         with open('back/usuarios.txt', 'r') as f:
-#             # Usando list comprehension y tuplas
-#             lineas = [linea.strip().split(',') for linea in f]
-#             global usuarios
-#             usuarios = [{
-#                 "id": int(datos[0]),
-#                 "nombre": datos[1],
-#                 "edad": int(datos[2]),
-#                 "correo": datos[3],
-#                 "saldo": float(datos[4]),
-#                 "ultima_recarga": datetime.fromisoformat(datos[5]),
-#                 "ultimo_login": datetime.fromisoformat(datos[6]) if len(datos) > 7 and datos[6] else None,
-#                 "contrasena": datos[7] if len(datos) > 7 else datos[6],
-#                 "historial": []
-#             } for datos in lineas if len(datos) >= 7]
 
 def obtener_opciones_menu():
     opciones_base = [
