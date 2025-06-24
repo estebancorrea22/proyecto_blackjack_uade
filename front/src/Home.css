@@ -1,0 +1,17 @@
+.shadow-dance-text {
+    color: #000000;
+    text-shadow: 5px 5px 0 #ff60b1, 10px 10px 0 #ff6b6b;
+    animation: shadow-dance 3s infinite;
+}
+
+@keyframes shadow-dance {
+
+    0%,
+    100% {
+        text-shadow: 5px 5px 0 #ff6b6b, 10px 10px 0 #ff6b6b;
+    }
+
+    50% {
+        text-shadow: -5px -5px 0 #ff60b1, -10px -10px 0 #ff60b1;
+    }
+}

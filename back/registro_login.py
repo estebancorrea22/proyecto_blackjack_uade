@@ -96,15 +96,21 @@ def eliminar_usuario():
     except ValueError:
         print("ID inválido. Ingrese un número.")
 
-def login_usuario():
+def login_usuario(correo, contrasena, api = False):
     """
     Inicia sesión de usuario y verifica si ha pasado 1 día desde la última recarga.
     Si la fecha de última recarga es anterior a hoy, añade 1000 al saldo.
     """
-    correo = input("Ingrese su correo: ")
-    contrasena = input("Ingrese su contraseña: ")
-    
+    cargar_usuarios_json()
+
+    if not api:
+        correo = input("Ingrese su correo: ")
+        contrasena = input("Ingrese su contraseña: ")
+
     usuario = next((u for u in usuarios if u['correo'] == correo and u['contrasena'] == contrasena), None)
+
+    if api: 
+        return usuario
     
     if usuario:
         ahora = datetime.now()
@@ -150,12 +156,12 @@ def mostrar_usuarios():
         fecha_recarga = u['ultima_recarga'].strftime("%d-%m-%Y - %H:%M")
         print(f"{u['id']} | {u['nombre']} | {u['correo']} | {u['saldo']} | {fecha_recarga}")
 
-def guardar_usuarios_json(usuario, filename='back/usuarios.json'):
+def guardar_usuarios_json(usuario, filename='./usuarios.json'):
     """
     Guarda un usuario en el archivo JSON, actualizándolo si ya existe por ID.
     Convierte datetime a string para serialización.
     """
-    os.makedirs('back', exist_ok=True)
+    os.makedirs('./', exist_ok=True)
 
     try:
         with open(filename, 'r', encoding='utf-8') as f:
@@ -190,8 +196,8 @@ def cargar_usuarios_json():
     """Carga usuarios desde archivo JSON"""
     global usuarios
     try:
-        if os.path.exists('back/usuarios.json'):
-            with open('back/usuarios.json', 'r') as f:
+        if os.path.exists('./usuarios.json'):
+            with open('./usuarios.json', 'r') as f:
                 usuarios = json.load(f)
                 for u in usuarios:
                     u['ultima_recarga'] = datetime.fromisoformat(u['ultima_recarga'])
@@ -244,7 +250,7 @@ while True:
             mostrar_logros(usuario_actual)
             input("\nPresione Enter para continuar...")
         else:
-            usuario = login_usuario()
+            usuario = login_usuario('', '', False)
             if usuario:
                 usuario_actual = usuario
                 print(f"Tu saldo actual es: {usuario_actual['saldo']}")

@@ -8,7 +8,7 @@
 }
 
 .player-container {
-    width: 40%;
+    width: 45%;
     min-width: 250px;
     font-size: 52px;
     padding: 10px;
@@ -23,11 +23,17 @@
     border-radius: 15px;
     background-color: #65c93a;
     padding: 5px 10px;
-    transition: filter 0.2s ease;
+    transition: filter 0.2 ease;
+    text-align: center;
 
 }
 
 .button:hover {
     filter: brightness(85%);
     cursor: pointer;
+}
+
+.saldo:hover {
+    cursor: default;
+    filter: brightness(100%);
 }

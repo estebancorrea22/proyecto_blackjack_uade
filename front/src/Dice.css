@@ -34,3 +34,22 @@
 .pip.visible {
     opacity: 1;
 }
+
+.crown-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.crown-icon {
+    font-size: 48px;
+    color: gold;
+}
+
+.pip.single {
+    background: rgb(150, 0, 0);
+    width: 30px;
+    height: 30px;
+}
