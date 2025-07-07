@@ -1,5 +1,5 @@
 from tirada_dados import tirar_dado, evaluar_mano
-from apuestas import realizar_apuesta, doblar_apuesta
+from apuestas import realizar_apuesta, doblar_apuesta, plantarse
 from calcular_pago import calcular_pago  
 from logros import verificar_logros
 from recompensas import aplicar_recompensa, mostrar_logros
@@ -56,6 +56,7 @@ def turno_jugador(usuario,apuesta):
                 return estado, total, mano, apuesta
             
         elif opcion == '3':
+            plantarse(total, mano, apuesta)
             total = sum(mano)           
             return "plantado", total, mano , apuesta
                
@@ -160,20 +161,7 @@ def jugar_blackjack(usuario):
             estado_crupier, total_crupier = "sin_jugar", 0
 
         # Determinar resultado del juego
-        if estado_jugador == "pasado" or total_jugador > 21:
-            resultado = "derrota"
-        elif estado_crupier == "pasado" or total_crupier > 21:
-            resultado = "victoria"
-        elif total_jugador > total_crupier:
-            resultado = "victoria"
-        elif total_jugador < total_crupier:
-            resultado = "derrota"
-        elif estado_jugador == "blackjack" and estado_crupier != "blackjack":
-            resultado = "blackjack"
-        elif estado_jugador == "blackjack" and estado_crupier == "blackjack":
-            resultado = "empate"
-        else:
-            resultado = "empate"
+        resultado = determinar_ganador(estado_jugador, total_jugador, estado_crupier, total_crupier)
 
         ganancia = calcular_pago(resultado, apuesta, usuario)
 
@@ -206,3 +194,46 @@ def jugar_blackjack(usuario):
     return usuario
 
    
+def determinar_ganador(estado_jugador, total_jugador, estado_crupier, total_crupier):
+    """
+    Determina si el jugador o el crupier gano la partida
+    Parámetros:
+        estado_jugador (str): Contiene el estado en el que el jugador termino la partida.
+        total_jugador (int): Contiene el puntaje total del jugador
+        estado_crupier (str): Contiene el estado en el que el crupier termino la partida.
+        total_crupier (int): Contiene el puntaje total del crupier
+    Retorna:
+        resutado (str): Cual es el resultado del juego desde el lado del jugador
+    """
+
+    print(f'estado_jugador: {estado_jugador}, total_jugador: {total_jugador}, estado_crupier:{estado_crupier}, total_crupier:{total_crupier}')
+
+    resultado = ''
+    if estado_jugador == "pasado" or int(total_jugador) > 21:
+        resultado = "derrota"
+    elif estado_crupier == "pasado" or int(total_crupier) > 21:
+        resultado = "victoria"
+    elif estado_jugador == "blackjack" and estado_crupier == "blackjack":
+        resultado = "empate"
+    elif estado_jugador == "blackjack" and estado_crupier != "blackjack":
+        resultado = "blackjack" 
+    elif int(total_jugador) > int(total_crupier):
+        resultado = "victoria"
+    elif int(total_jugador) < int(total_crupier):
+        resultado = "derrota"
+    else:
+        resultado = "empate"
+
+    return resultado
+
+def chequear_total_crupier(mano):
+    mano_crupier = list(mano)
+    print(f'Mano inicial: {mano_crupier} (total: {sum(mano_crupier)})')
+    
+    while sum(mano_crupier) < 17:
+        nuevo = tirar_dado(1)
+        print(f'Crupier tira: {nuevo}')
+        mano_crupier.extend(nuevo)
+        print(f'Mano ahora: {mano_crupier} (total: {sum(mano_crupier)})')
+    
+    return evaluar_mano(mano_crupier), mano_crupier

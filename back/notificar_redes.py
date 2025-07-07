@@ -1,4 +1,5 @@
 import requests
+# Si requests no se encuentrar correr el siguiente comando en consola: python3 -m pip install requests
 from datetime import datetime
 
 
