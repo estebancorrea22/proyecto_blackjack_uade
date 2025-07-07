@@ -1,14 +1,57 @@
 [
     {
         "id": 1,
-        "nombre": "dani",
-        "correo": "ed@hotmail.com",
+        "nombre": "da",
+        "correo": "da@hotmail.com",
         "contrasena": "Dani8042@",
-        "saldo": 50,
-        "edad": 29,
-        "ultima_recarga": "2025-07-07T13:22:15.743548",
-        "ultima_recarga_diaria": "2025-07-07T13:38:29.357879",
-        "ultimo_login": "2025-07-07T13:40:25.943361",
+        "saldo": 1000,
+        "edad": 21,
+        "ultima_recarga": "2025-06-22 20:37:58.945399",
+        "ultimo_login": null,
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
+                }
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "nombre": "dd",
+        "correo": "d@gmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 1000,
+        "edad": 21,
+        "ultima_recarga": "2025-06-22 21:23:27.677280",
+        "ultimo_login": null,
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
+                }
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "nombre": "Facundo",
+        "correo": "seibfacundo@gmail.com",
+        "contrasena": "Fac$2023$",
+        "saldo": 18701,
+        "edad": 24,
+        "ultima_recarga": "2025-06-30T19:17:50.504781",
+        "ultimo_login": "2025-07-07T19:02:43.892774",
         "historial": [],
         "logros": {
             "logros_obtenidos": [
@@ -17,8 +60,69 @@
                     "nombre": "Primer juego",
                     "descripcion": "Jugar por primera vez",
                     "recompensa": 500
+                },
+                {
+                    "id": 4,
+                    "nombre": "Arriesgado",
+                    "descripcion": "Apostar más de 1000 en una jugada",
+                    "recompensa": 700
+                }
+            ],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
                 }
             ]
         }
+    },
+    {
+        "id": 4,
+        "nombre": "Estebi",
+        "correo": "estebi@hotmail.com",
+        "contrasena": "Ercc2323!",
+        "saldo": 1000,
+        "edad": 23,
+        "ultima_recarga": "2025-06-23T11:25:52.901999",
+        "ultimo_login": "2025-06-23T21:06:00.993344",
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [
+                {
+                    "id": 1,
+                    "nombre": "Primer juego",
+                    "descripcion": "Jugar por primera vez",
+                    "recompensa": 500
+                },
+                {
+                    "id": 4,
+                    "nombre": "Arriesgado",
+                    "descripcion": "Apostar más de 1000 en una jugada",
+                    "recompensa": 700
+                }
+            ],
+            "logros_disponibles": [
+                {
+                    "id": 0,
+                    "recompensa": 100,
+                    "nombre": "Logro de prueba",
+                    "descripcion": "Completar una tarea de prueba"
+                }
+            ]
+        }
+    },
+    {
+        "id": 5,
+        "nombre": "Facu",
+        "correo": "facu@facu.com",
+        "contrasena": "Facac#12",
+        "saldo": 1000,
+        "edad": 22,
+        "ultima_recarga": "2025-06-30T19:13:27.701971",
+        "ultimo_login": null,
+        "historial": [],
+        "logros": {}
     }
 ]

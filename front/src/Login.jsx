@@ -6,6 +6,7 @@ import Input from '@mui/material/Input';
 import { useState } from 'react';
 import './Components.css'
 import { useNavigate } from "react-router";
+import { toast } from 'sonner';
 
 
 const Login = ({ number }) => {
@@ -32,13 +33,15 @@ const Login = ({ number }) => {
             const result = await response.json();
             console.log('Response from server:', result);
 
-            if (response.ok) {
+            if (result) {
                 console.log('Login successful:', result);
                 localStorage.setItem('logged', true);
                 localStorage.setItem('user', JSON.stringify(result));
                 navigate('/');
             } else {
                 console.error('Login failed:', result.message);
+                localStorage.setItem('logged', false);
+                toast.error('Error al iniciar sesion, verifique sus credenciales');
             }
         } catch (error) {
             console.error('Error sending login:', error);

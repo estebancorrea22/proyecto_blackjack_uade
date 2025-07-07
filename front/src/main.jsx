@@ -8,10 +8,12 @@ import BackgroundMusic from './BackgroundMusic.jsx'
 import { BrowserRouter, Route, Routes } from "react-router";
 import Login from './Login.jsx'
 import Home from './Home.jsx'
+import { Toaster } from 'sonner'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BackgroundMusic src={Song} />
+    <Toaster richColors closeButton />
 
     <BrowserRouter>
       <Routes>

@@ -81,10 +81,10 @@ const Home = ({ }) => {
                     )
                 }
 
-                {logged ? (
+                {logged && user ? (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch', gap: '20px', marginTop: '20px', width: '405px', }}>
                         <div className='button' style={{ backgroundColor: '#ff60b1' }} onClick={() => { navigate('/play') }}>Jugar</div>
-                        <div className='button' style={{ backgroundColor: '#65c93a' }} onClick={() => { getMyUserData() }}>Ver mi perfil</div>
+                        {/* <div className='button' style={{ backgroundColor: '#65c93a' }} onClick={() => { getMyUserData() }}>Ver mi perfil</div> */}
                         <div className='button' style={{ backgroundColor: '#26afff' }} onClick={() => { getUsers() }}>Ver usuarios</div>
                         <div className='button' style={{ backgroundColor: '#a487f0' }} onClick={() => { signOut() }}>Cerrar Sesion</div>
                         {/* <div className='button' style={{ backgroundColor: '#ff6b6b' }}>Salir</div> */}
@@ -97,7 +97,7 @@ const Home = ({ }) => {
                             </div>
                         </Link>
 
-                        <div className='button' style={{ backgroundColor: '#65c93a' }}>Registrarse</div>
+                        {/* <div className='button' style={{ backgroundColor: '#65c93a' }}>Registrarse</div> */}
                         <div className='button' style={{ backgroundColor: '#26afff' }} onClick={() => { getUsers() }}>Ver usuarios</div>
                         {/* <div className='button' style={{ backgroundColor: '#ff6b6b' }}>Salir</div> */}
                     </div>
@@ -113,7 +113,7 @@ const Home = ({ }) => {
                                     <div style={{ fontSize: '18px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4px' }}>Saldo: <SiUmbraco />{user.saldo}</div>
                                 </div>
                                 <div style={{ width: '100%' }} >
-                                    <div style={{ fontSize: '18px', color: '#222' }}>Logros obtenidos: {user.logros.logros_obtenidos.length}</div>
+                                    <div style={{ fontSize: '18px', color: '#222' }}>Logros obtenidos: {user.logros?.logros_obtenidos?.length}</div>
                                 </div>
                                 <div style={{ width: '100%' }} >
                                     <div style={{ fontSize: '18px', color: '#222' }}>{user.correo}</div>

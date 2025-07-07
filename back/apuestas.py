@@ -57,6 +57,36 @@ def doblar_apuesta(mano, apuesta_actual, usuario):
     except Exception as e:
         print(f"Error al doblar la apuesta: {e}")
         return mano, apuesta_actual, sumar_dados(mano), "error", usuario
+    
+def doblar_apuesta_api(mano, apuesta_actual, saldo):
+    """
+    Duplica la apuesta del jugador y lanza un dado adicional. Version para API
+    Parámetros:
+        mano (list): Dados actuales del jugador.
+        apuesta_actual (int): Valor actual apostado.
+        saldo (int): Saldo del jugador.
+    Retorna:
+        tuple: (mano_actualizada, nueva_apuesta, total, estado, usuario).
+               Si no hay saldo suficiente, se devuelve el estado 'saldo_insuficiente'.
+    """
+    saldo_restante = saldo
+    if saldo_restante < apuesta_actual:
+        print("No tienes saldo suficiente para doblar la apuesta.")
+        return mano, apuesta_actual, sumar_dados(mano), "saldo_insuficiente", saldo
+
+    try:
+        nueva_apuesta = apuesta_actual * 2
+        saldo -= apuesta_actual
+        print(f"Apuesta duplicada a ${nueva_apuesta}")        
+        nuevo_dado = tirar_dado(1)[0]
+        mano.append(nuevo_dado)
+        total = sumar_dados(mano)
+        estado = "pasado" if total > 21 else "jugando"
+        print(f"\nDado adicional: {nuevo_dado} - Total: {total}")
+        return mano, nueva_apuesta, total, estado, saldo
+    except Exception as e:
+        print(f"Error al doblar la apuesta: {e}")
+        return mano, apuesta_actual, sumar_dados(mano), "error", saldo
 
 
 def calcular_resultado(apuesta, res_jug, res_crup, usuario):
@@ -87,3 +117,18 @@ def calcular_resultado(apuesta, res_jug, res_crup, usuario):
 
     usuario['saldo'] += resultado[1]
     return f"Resultado: {resultado[0]}", usuario
+
+def plantarse(total, mano, apuesta):
+    """
+    Hace la accion de plantarse para el jugador
+    Parámetros:
+        mano (list): Dados actuales del jugador.
+        total (int): Total de suma de dados.
+        apuesta (int): Valor actual apostado.
+    Retorna:
+        tuple: (estado_del_jugaodr, total, mano, apuesta).
+    """
+    total = sum(mano)           
+    return "plantado", total, mano , apuesta
+
+
