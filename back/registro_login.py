@@ -112,16 +112,7 @@ def registro_usuario():
                 break
             else:
                 print(validaciones[13][1])
-
-        # Confirmación final
-        confirmacion = input(f"\n¿Confirmar registro? (s/n): ").lower()
-        if confirmacion == 's':
-            break
-        elif confirmacion == 'n':
-            print("Reiniciando registro...\n")
-        else:
-            print("Opción no válida. Reiniciando registro...\n")
-
+        break
     # Creación del usuario
     nuevo_usuario = {
         "id": generar_id(),
@@ -324,8 +315,7 @@ while True:
     if opcion == "1":
         registro_usuario()
     elif opcion == "2":
-        if usuario_actual:
-               
+        if usuario_actual:   
             print("\n--- Mi Perfil ---")
             print(f"Nombre: {usuario_actual['nombre']}")
             print(f"Correo: {usuario_actual['correo']}")
@@ -351,6 +341,10 @@ while True:
         input("\nPresione Enter para continuar...")
     elif opcion == "5":
         if usuario_actual:
+            if usuario_actual['saldo'] < 100:
+                print("\nNo tienes saldo suficiente para jugar (mínimo $100).")
+                input("Presione Enter para volver al menú principal...")
+                continue
             from juego import jugar_blackjack
             usuario_actual = jugar_blackjack(usuario_actual)
             guardar_usuarios_json(usuario_actual)

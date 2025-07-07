@@ -1,6 +1,6 @@
 from tirada_dados import tirar_dado, evaluar_mano
 from apuestas import realizar_apuesta, doblar_apuesta
-from funcion_calcular_pago import calcular_pago  
+from calcular_pago import calcular_pago  
 from logros import verificar_logros
 from recompensas import aplicar_recompensa, mostrar_logros
 from datetime import datetime, timedelta
@@ -88,6 +88,7 @@ def jugar_blackjack(usuario):
     Retorna:
         dict: Usuario actualizado con su nuevo saldo y logros obtenidos tras jugar.
     """
+    
     print(f"\n¡Bienvenido al Blackjack, {usuario['nombre']}!")
     print(f"Saldo actual: ${usuario['saldo']:,}")
     mostrar_reglas()
@@ -109,7 +110,7 @@ def jugar_blackjack(usuario):
                 horas = tiempo_restante.seconds // 3600
                 minutos = (tiempo_restante.seconds % 3600) // 60
                 
-                if saldo_actual <= 0:
+                if saldo_actual <= 0 or saldo_actual < 100:
                     print("\n¡Fondos insudicientes!")
                     print(f"Prueba nuevamente en {horas} horas y {minutos} minutos.")
                     return usuario
@@ -174,7 +175,7 @@ def jugar_blackjack(usuario):
         else:
             resultado = "empate"
 
-        ganancia = calcular_pago(resultado, apuesta)
+        ganancia = calcular_pago(resultado, apuesta, usuario)
 
         print(f'Ganancia: {ganancia}')
         print(f"Saldo: {usuario['saldo']}")

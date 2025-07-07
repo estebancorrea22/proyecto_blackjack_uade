@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "nombre": "dani",
+        "correo": "ed@hotmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 50,
+        "edad": 29,
+        "ultima_recarga": "2025-07-07T13:22:15.743548",
+        "ultima_recarga_diaria": "2025-07-07T13:38:29.357879",
+        "ultimo_login": "2025-07-07T13:40:25.943361",
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [
+                {
+                    "id": 1,
+                    "nombre": "Primer juego",
+                    "descripcion": "Jugar por primera vez",
+                    "recompensa": 500
+                }
+            ]
+        }
+    }
+]

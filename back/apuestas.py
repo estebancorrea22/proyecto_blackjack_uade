@@ -13,17 +13,19 @@ def realizar_apuesta(usuario):
     apuesta_minima = 100
 
     if saldo < apuesta_minima:
-        print(f"No tienes saldo suficiente para apostar (mínimo ${apuesta_minima}).")
         return None, None
     
     while True:
-        respuesta = input(f"Saldo: ${saldo:,}\n¿Querés apostar? (s/n): ").strip().lower()
-        if respuesta == 'n':
-            return None, None
-        elif respuesta == 's':
-            return apuesta_minima, {**usuario, 'saldo': saldo}
-        else:
-            print("Por favor, respondé 's' o 'n'.")
+        try:
+            apuesta = int(input(f"Saldo: ${saldo:,}\nApuesta (0 para salir): $"))
+            if apuesta == 0:
+                return None, None
+            if apuesta < 0 or apuesta > saldo:
+                print("Apuesta inválida")
+                continue
+            return apuesta, {**usuario, 'saldo': saldo}
+        except ValueError:
+            print("Ingrese número válido")
 
 
 def doblar_apuesta(mano, apuesta_actual, usuario):
