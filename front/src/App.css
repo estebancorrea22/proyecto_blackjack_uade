@@ -1,5 +1,5 @@
 .dice-container {
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,9 +7,17 @@
     padding: 10px
 }
 
+.play-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    padding: 20px 30px
+}
+
 .player-container {
-    width: 45%;
-    min-width: 250px;
+    width: 400px;
     font-size: 52px;
     padding: 10px;
     margin: 0;
@@ -36,4 +44,9 @@
 .saldo:hover {
     cursor: default;
     filter: brightness(100%);
+}
+
+.disabled {
+    opacity: 0.6;
+    pointer-events: none;
 }

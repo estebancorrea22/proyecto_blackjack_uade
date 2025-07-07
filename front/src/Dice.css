@@ -48,6 +48,12 @@
     color: gold;
 }
 
+.question-icon {
+    font-size: 48px;
+    color: black;
+}
+
+
 .pip.single {
     background: rgb(150, 0, 0);
     width: 30px;

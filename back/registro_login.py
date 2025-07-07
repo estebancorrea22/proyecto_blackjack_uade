@@ -133,14 +133,15 @@ def registro_usuario():
     print("\n¡Registro exitoso!")
     
     
-def eliminar_usuario():
+def eliminar_usuario(id_eliminar, api = False):
     """Elimina un usuario después de confirmación"""
     mostrar_usuarios()
     if not usuarios:
         return
     
     try:
-        id_eliminar = int(input("Ingrese el ID del usuario a eliminar: "))
+        if not api:
+            id_eliminar = int(input("Ingrese el ID del usuario a eliminar: "))
         usuario = next((u for u in usuarios if u['id'] == id_eliminar), None)
         
         if usuario:
@@ -149,7 +150,7 @@ def eliminar_usuario():
                 usuarios.remove(usuario)
                 print("Usuario eliminado con éxito.")
                 # guardar_usuarios()
-                guardar_usuarios_json()
+                guardar_usuarios_json(usuario)
             else:
                 print("Operación cancelada.")
         else:
@@ -169,7 +170,6 @@ def login_usuario(correo, contrasena, api = False):
         contrasena = input("Ingrese su contraseña: ")
 
     usuario = next((u for u in usuarios if u['correo'] == correo and u['contrasena'] == contrasena), None)
-
     if api: 
         return usuario
     
