@@ -6,12 +6,29 @@ from recompensas import aplicar_recompensa, mostrar_logros
 from datetime import datetime, timedelta
 
 def mostrar_reglas():
+    """
+    Muestra por pantalla las reglas básicas del Blackjack con dados.
+    Parámetros: ninguno.
+    Retorna: None.
+    """    
     print("\n--- REGLAS DEL BLACKJACK ---")
     print("1. Ganas si sacas 21 con tus dos primeros dados (Blackjack)")
     print("2. Pierdes si te pasas de 21")
     print("3. Si no, gana quien tenga más puntos")
 
 def turno_jugador(usuario,apuesta):
+    """
+    Ejecuta el turno del jugador: permite tirar otro dado, doblar la apuesta o plantarse.
+    Parámetros:
+        usuario (dict): Datos del jugador, incluido su saldo.
+        apuesta (int): Monto apostado al inicio del turno.
+    Retorna:
+        tuple: (estado, total, mano, apuesta) donde:
+               estado (str)  "jugando", "blackjack", "pasado" o "plantado";
+               total (int)   suma de los dados del jugador;
+               mano (list)   lista de valores de los dados;
+               apuesta (int)  apuesta final tras posibles cambios.
+    """
     mano = tirar_dado(2)
     print(f"\nTus dados: {mano[0]} y {mano[1]} - Total: {sum(mano)}")
     
@@ -46,6 +63,14 @@ def turno_jugador(usuario,apuesta):
             print("Opción inválida. Ingresa '1', '2' o '3'.")  
 
 def turno_crupier():
+    """
+    Ejecuta el turno del crupier: lanza dados hasta alcanzar un total mínimo de 17.
+    Parámetros: ninguno.
+    Retorna:
+        tuple: (estado, total) donde:
+        estado (str) "jugando", "blackjack" o "pasado" según la suma de los dados;
+        total (int) suma de los valores obtenidos por el crupier.
+    """
     mano = tirar_dado(2)
     print(f"\nCrupier muestra: {mano[0]} y [*]")
     
@@ -55,6 +80,14 @@ def turno_crupier():
     return evaluar_mano(mano), sum(mano)
 
 def jugar_blackjack(usuario):
+    """
+    Inicia y gestiona una o más rondas de Blackjack con dados para el usuario.
+    Durante el juego se administran las apuestas, turnos, logros y recompensas.
+    Parámetros:
+        usuario (dict): Contiene la información del jugador (nombre, saldo, logros).
+    Retorna:
+        dict: Usuario actualizado con su nuevo saldo y logros obtenidos tras jugar.
+    """
     print(f"\n¡Bienvenido al Blackjack, {usuario['nombre']}!")
     print(f"Saldo actual: ${usuario['saldo']:,}")
     mostrar_reglas()
@@ -144,10 +177,10 @@ def jugar_blackjack(usuario):
         ganancia = calcular_pago(resultado, apuesta)
 
         print(f'Ganancia: {ganancia}')
-        print(f'Saldo: {usuario['saldo']}')
+        print(f"Saldo: {usuario['saldo']}")
         usuario["saldo"] += ganancia
 
-        print(f"\nResultado de la ronda: {resultado.upper()} ({"+" if ganancia > 0 else ""}{ganancia}$ saldo)")
+        print(f"\nResultado de la ronda: {resultado.upper()} (Saldo: {'+' if ganancia > 0 else '-' if ganancia < 0 else ''}${abs(ganancia)})")
         print(f"Nuevo saldo: ${usuario['saldo']:,}")
 
         if resultado in ["victoria", "blackjack"]:
