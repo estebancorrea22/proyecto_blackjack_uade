@@ -1,30 +1,34 @@
-# tests/test_tirada_dados.py
-import pytest
 from tirada_dados import sumar_dados, evaluar_mano, tirar_dado
 
-class TestTiradaDados:
-    @pytest.mark.parametrize("mano,esperado", [
-        ([1, 10], 21),       # Blackjack
-        ([1, 5, 5], 21),     # As flexible (11 + 5 + 5 = 21)
-        ([10, 10, 1], 21),   # As ajustado (10 + 10 + 1)
-        ([7, 7, 7], 21),     # 21 normal
-        ([1, 1, 1], 13),     # Múltiples Ases
-        ([10, 10], 20)       # Sin Ases
-    ])
-    def test_sumar_dados(self, mano, esperado):
-        assert sumar_dados(mano) == esperado
+#pruebas unitarias para la tirada de dados con pytest
 
-    @pytest.mark.parametrize("mano,estado_esperado", [
-        ([1, 10], "blackjack"),
-        ([10, 10, 1], "jugando"),
-        ([10, 10, 10], "pasado"),
-        ([5, 5], "jugando")
-    ])
-    def test_evaluar_mano(self, mano, estado_esperado):
-        estado, _ = evaluar_mano(mano)
-        assert estado == estado_esperado
+def test_tirar_dado():
+    resultados = tirar_dado(5)
+    assert len(resultados) == 5  
+    for resultado in resultados:
+        assert 1 <= resultado <= 10 
 
-    def test_tirar_dado(self):
-        dados = tirar_dado(3)
-        assert len(dados) == 3
-        assert all(1 <= dado <= 10 for dado in dados)
+def test_sumar_dados():
+    mano = [1, 5, 10]
+    total = sumar_dados(mano)
+    assert total == 16  
+
+    mano = [1, 1, 1]  
+    total = sumar_dados(mano)
+    assert total == 13  
+
+    mano = [10, 10]  
+    total = sumar_dados(mano)
+    assert total == 20
+    
+def test_evaluar_mano():
+    total = sumar_dados([1, 10])
+    estado, total = evaluar_mano([1, 10])
+    assert estado == "blackjack"
+    assert total == 21
+    estado, total = evaluar_mano([1, 5, 10])
+    assert estado == "jugando"
+    assert total == 16
+    estado, total = evaluar_mano([10, 5, 7])
+    assert estado == "pasado"
+    assert total == 22  

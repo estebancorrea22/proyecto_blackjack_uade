@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1391510307330854942/3eBmZ88jMT-UBC7NMcLwvwixsIZhqyK66ENFP6H1AVTvFGdG4Ft4rRlBwASM7zJJC7l_"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1391902889840087142/Crf5Z-Ln6MzLrokPWAEN31wfptdPFPBONL_v3c5x_kCq9oWgAMN4lXVmDdT2yYqNbW3H"
 
 def notificar_discord(usuario, logro_nombre, recompensa=None):
     """

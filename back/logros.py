@@ -33,6 +33,7 @@ def verificar_logros(usuario, evento, contexto=None):
     """
     logros_desbloqueados = []
 
+ 
     if evento == 'primer_juego':
         logro = LOGROS[evento]
 
@@ -54,6 +55,13 @@ def verificar_logros(usuario, evento, contexto=None):
 
 
     elif evento == 'ganador_nato':
+        
+        if 'logros' not in usuario:
+            usuario['logros'] = {
+                'logros_obtenidos': [],
+                'logros_disponibles': []
+            }
+        
         logro = LOGROS[evento]
         victorias_consecutivas = usuario.get('victorias_consecutivas', 0) + 1
         usuario['victorias_consecutivas'] = victorias_consecutivas
@@ -69,6 +77,13 @@ def verificar_logros(usuario, evento, contexto=None):
       
 
     elif evento == 'blackjack':
+        
+        if 'logros' not in usuario:
+            usuario['logros'] = {
+                'logros_obtenidos': [],
+                'logros_disponibles': []
+            }
+        
         logro = LOGROS[evento]
         if contexto and isinstance(contexto, list) and sum(contexto) == 21 and len(contexto) == 2:
             ya_obtenido = any(l['id'] == logro['id'] for l in usuario['logros']['logros_obtenidos'])
@@ -80,6 +95,11 @@ def verificar_logros(usuario, evento, contexto=None):
      
 
     elif evento == 'arriesgado':
+        if 'logros' not in usuario:
+            usuario['logros'] = {
+                'logros_obtenidos': [],
+                'logros_disponibles': []
+            }
         logro = LOGROS[evento]
 
         ya_obtenido = any(l['id'] == logro['id'] for l in usuario['logros']['logros_obtenidos'])
