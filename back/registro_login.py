@@ -132,9 +132,39 @@ def registro_usuario():
     guardar_usuarios_json(nuevo_usuario)
     print("\n¡Registro exitoso!")
     
+def modificar_saldo_usuario(id_usuario, nuevo_saldo, guardar=True):
+    """
+    Modifica el saldo de un usuario con el ID dado.
+    
+    Parámetros:
+        id_usuario (int): ID del usuario a modificar
+        nuevo_saldo (int): Nuevo saldo a asignar
+        guardar (bool): Si se debe guardar el usuario en el JSON inmediatamente
+    Retorna:
+        bool: True si se modificó correctamente, False en caso contrario
+    """
+    cargar_usuarios_json()  # Asegura que la lista de usuarios esté actualizada
+
+    usuario = next((u for u in usuarios if u['id'] == id_usuario), None)
+
+    if usuario:
+        usuario['saldo'] = nuevo_saldo
+        if guardar:
+            guardar_usuarios_json(usuario)
+        print(f"Saldo actualizado para el usuario {usuario['nombre']}. Nuevo saldo: {nuevo_saldo}")
+        return True
+    else:
+        print(f"No se encontró un usuario con ID {id_usuario}.")
+        return False
+
     
 def eliminar_usuario(id_eliminar, api = False):
-    """Elimina un usuario después de confirmación"""
+    """
+    Elimina un usuario después de confirmación.
+    parametros: 
+        id_eliminar (int): ID del usuario a eliminar (Para llamada por API).
+        api (bool): Booleano que indica si la funcion sera llamada por la API o por consola
+    """
     mostrar_usuarios()
     if not usuarios:
         return
@@ -162,6 +192,12 @@ def login_usuario(correo, contrasena, api = False):
     """
     Inicia sesión de usuario y verifica si ha pasado 1 día desde la última recarga.
     Si la fecha de última recarga es anterior a hoy, añade 1000 al saldo.
+    Parámetros:
+        correo (str): Correo del usuario a loguear (Para API).
+        contrasena (str): Contraseña del usuario a loguear (Para API)
+        api (bool): Indica si la funcion sera llamada desde la API o no para cambio de logica
+    Retorna:
+        usuario: Devuelve el usuario si se pudo loguear, None si no pudo
     """
     cargar_usuarios_json()
     
@@ -185,7 +221,9 @@ def login_usuario(correo, contrasena, api = False):
 
 
 def logout():
-    """Cierra la sesión del usuario actual"""
+    """
+        Cierra la sesión del usuario actual
+    """
     global usuario_actual
     if usuario_actual:
         print(f"¡Hasta pronto, {usuario_actual['nombre']}!")
@@ -195,7 +233,9 @@ def logout():
 
 
 def mostrar_usuarios():
-    """Muestra todos los usuarios registrados con sus datos principales"""
+    """
+        Muestra todos los usuarios registrados con sus datos principales
+    """
     if not usuarios:
         print("No hay usuarios registrados.")
         return
@@ -303,63 +343,63 @@ def mostrar_menu():
     # cargar_usuarios()
     cargar_usuarios_json()
     # Menu principal
-while True:
+# while True:
   
-    print("\n--- Sistema de Usuarios ---")
-    if usuario_actual:
-        print(f"Usuario actual: {usuario_actual['nombre']} (Saldo: {usuario_actual['saldo']})")
-    mostrar_menu()
+#     print("\n--- Sistema de Usuarios ---")
+#     if usuario_actual:
+#         print(f"Usuario actual: {usuario_actual['nombre']} (Saldo: {usuario_actual['saldo']})")
+#     mostrar_menu()
         
-    opcion = input("\nSeleccione una opción: ")
+#     opcion = input("\nSeleccione una opción: ")
         
-    if opcion == "1":
-        registro_usuario()
-    elif opcion == "2":
-        if usuario_actual:   
-            print("\n--- Mi Perfil ---")
-            print(f"Nombre: {usuario_actual['nombre']}")
-            print(f"Correo: {usuario_actual['correo']}")
-            print(f"Edad: {usuario_actual['edad']}")
-            print(f"Saldo: {usuario_actual['saldo']}")
-            from recompensas import mostrar_logros
-            mostrar_logros(usuario_actual)
-            input("\nPresione Enter para continuar...")
-        else:
-            usuario = login_usuario('', '', False)
-            if usuario:
-                usuario_actual = usuario
-                print(f"Tu saldo actual es: {usuario_actual['saldo']}")
-                input("\nPresione Enter para continuar...")
-    elif opcion == "3":
-        mostrar_usuarios()
+#     if opcion == "1":
+#         registro_usuario()
+#     elif opcion == "2":
+#         if usuario_actual:   
+#             print("\n--- Mi Perfil ---")
+#             print(f"Nombre: {usuario_actual['nombre']}")
+#             print(f"Correo: {usuario_actual['correo']}")
+#             print(f"Edad: {usuario_actual['edad']}")
+#             print(f"Saldo: {usuario_actual['saldo']}")
+#             from recompensas import mostrar_logros
+#             mostrar_logros(usuario_actual)
+#             input("\nPresione Enter para continuar...")
+#         else:
+#             usuario = login_usuario('', '', False)
+#             if usuario:
+#                 usuario_actual = usuario
+#                 print(f"Tu saldo actual es: {usuario_actual['saldo']}")
+#                 input("\nPresione Enter para continuar...")
+#     elif opcion == "3":
+#         mostrar_usuarios()
         
-        input("\nPresione Enter para continuar...")
-    elif opcion == "4":
-        eliminar_usuario()
-        if usuario_actual and usuario_actual not in usuarios:  
-            usuario_actual = None
-        input("\nPresione Enter para continuar...")
-    elif opcion == "5":
-        if usuario_actual:
-            if usuario_actual['saldo'] < 100:
-                print("\nNo tienes saldo suficiente para jugar (mínimo $100).")
-                input("Presione Enter para volver al menú principal...")
-                continue
-            from juego import jugar_blackjack
-            usuario_actual = jugar_blackjack(usuario_actual)
-            guardar_usuarios_json(usuario_actual)
-            input("\nPresione Enter para continuar...")
-        else:
-            print("Saliendo del sistema...")
-            break
-    elif opcion == "6" and usuario_actual:
+#         input("\nPresione Enter para continuar...")
+#     elif opcion == "4":
+#         eliminar_usuario()
+#         if usuario_actual and usuario_actual not in usuarios:  
+#             usuario_actual = None
+#         input("\nPresione Enter para continuar...")
+#     elif opcion == "5":
+#         if usuario_actual:
+#             if usuario_actual['saldo'] < 100:
+#                 print("\nNo tienes saldo suficiente para jugar (mínimo $100).")
+#                 input("Presione Enter para volver al menú principal...")
+#                 continue
+#             from juego import jugar_blackjack
+#             usuario_actual = jugar_blackjack(usuario_actual)
+#             guardar_usuarios_json(usuario_actual)
+#             input("\nPresione Enter para continuar...")
+#         else:
+#             print("Saliendo del sistema...")
+#             break
+#     elif opcion == "6" and usuario_actual:
         
-        logout()
-        input("\nPresione Enter para continuar...")
-    elif opcion == "7" and usuario_actual:
+#         logout()
+#         input("\nPresione Enter para continuar...")
+#     elif opcion == "7" and usuario_actual:
         
-        print("Saliendo del sistema...")
-        break
-    else:
-        print("Opción no válida. Intente de nuevo.")
-        input("\nPresione Enter para continuar...")
+#         print("Saliendo del sistema...")
+#         break
+#     else:
+#         print("Opción no válida. Intente de nuevo.")
+#         input("\nPresione Enter para continuar...")
