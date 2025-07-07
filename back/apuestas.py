@@ -1,26 +1,41 @@
 from tirada_dados import sumar_dados, tirar_dado
 
 def realizar_apuesta(usuario):
-    """Realiza apuesta con validación de saldo"""
+    """
+    Pregunta al jugador si quiere apostar el monto mínimo ($100) y valida su saldo.
+    Parámetros: 
+        usuario (dict): Información del jugador que incluye la clave 'saldo'.
+    Retorna: 
+        tuple: (100, usuario_actualizado) si apuesta, o (None, None) si no apuesta 
+        o si el saldo es insuficiente.
+    """
     saldo = usuario['saldo']
+    apuesta_minima = 100
+
+    if saldo < apuesta_minima:
+        print(f"No tienes saldo suficiente para apostar (mínimo ${apuesta_minima}).")
+        return None, None
     
     while True:
-        try:
-            apuesta = int(input(f"Saldo: ${saldo:,}\nApuesta (0 para salir): $"))
-            if apuesta == 0:
-                return None, None
-            if apuesta < 0 or apuesta > saldo:
-                print("Apuesta inválida")
-                continue
-            return apuesta, {**usuario, 'saldo': saldo}
-        except ValueError:
-            print("Ingrese número válido")
+        respuesta = input(f"Saldo: ${saldo:,}\n¿Querés apostar? (s/n): ").strip().lower()
+        if respuesta == 'n':
+            return None, None
+        elif respuesta == 's':
+            return apuesta_minima, {**usuario, 'saldo': saldo}
+        else:
+            print("Por favor, respondé 's' o 'n'.")
 
 
 def doblar_apuesta(mano, apuesta_actual, usuario):
     """
-    El jugador decide duplicar la apuesta y lanzar un dado adicional.
-    El crupier debe aceptar la apuesta automáticamente.
+    Duplica la apuesta del jugador y lanza un dado adicional.
+    Parámetros:
+        mano (list): Dados actuales del jugador.
+        apuesta_actual (int): Valor actual apostado.
+        usuario (dict): Información del jugador, incluyendo su saldo.
+    Retorna:
+        tuple: (mano_actualizada, nueva_apuesta, total, estado, usuario).
+               Si no hay saldo suficiente, se devuelve el estado 'saldo_insuficiente'.
     """
     saldo_restante = usuario['saldo']
     if saldo_restante < apuesta_actual:
@@ -29,7 +44,7 @@ def doblar_apuesta(mano, apuesta_actual, usuario):
 
     try:
         nueva_apuesta = apuesta_actual * 2
-        usuario['saldo']
+        usuario['saldo'] -= apuesta_actual
         print(f"Apuesta duplicada a ${nueva_apuesta}")        
         nuevo_dado = tirar_dado(1)[0]
         mano.append(nuevo_dado)
@@ -44,11 +59,14 @@ def doblar_apuesta(mano, apuesta_actual, usuario):
 
 def calcular_resultado(apuesta, res_jug, res_crup, usuario):
     """
-    Calcula resultado usando diccionario de condiciones.
-
-    Returns:
-        tuple: (resultado_str, usuario_dict) donde resultado_str es un string con el resultado
-               y usuario_dict es el diccionario del usuario actualizado.
+    Calcula el resultado de la partida según los valores del jugador y el crupier.
+    Parámetros:
+        apuesta (int): Monto apostado.
+        res_jug (tuple): Estado y total del jugador (por ejemplo: ("jugando", 18)).
+        res_crup (tuple): Estado y total del crupier (por ejemplo: ("jugando", 17)).
+        usuario (dict): Información del jugador, incluyendo su saldo.
+    Retorna:
+        tuple: Mensaje con el resultado (str) y usuario actualizado (dict con nuevo saldo).
     """
     condiciones = [
         ('blackjack', lambda: res_jug[0] == "blackjack" and res_crup[0] != "blackjack", int(apuesta * 2.5)),
