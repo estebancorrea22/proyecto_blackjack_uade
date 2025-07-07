@@ -1,6 +1,5 @@
-from datetime import datetime
+from notificar_redes import notificar_discord
 
-# Definición de logros disponibles
 LOGROS = {
     'primer_juego': {
         'id': 1,
@@ -48,6 +47,11 @@ def verificar_logros(usuario, evento, contexto=None):
         if not ya_obtenido:
             usuario['logros']['logros_obtenidos'].append(logro)
             logros_desbloqueados.append(logro['nombre'])
+            if notificar_discord(usuario, logro['nombre'], logro['recompensa']):
+                print(f"Logro notificado a Discord: {logro['nombre']}")
+            else:
+                print(f"Error al notificar logro a Discord: {logro['nombre']}")
+
 
     elif evento == 'ganador_nato':
         logro = LOGROS[evento]
@@ -58,7 +62,11 @@ def verificar_logros(usuario, evento, contexto=None):
             if not ya_obtenido:
                 usuario['logros']['logros_obtenidos'].append(logro)
                 logros_desbloqueados.append(logro['nombre'])
-
+            if notificar_discord(usuario, logro['nombre'], logro['recompensa']):
+                    print("Notificación enviada a Discord")
+            else:
+                print("No se pudo notificar a Discord")
+      
 
     elif evento == 'blackjack':
         logro = LOGROS[evento]
@@ -67,7 +75,9 @@ def verificar_logros(usuario, evento, contexto=None):
             if not ya_obtenido:
                 usuario['logros']['logros_obtenidos'].append(logro)
                 logros_desbloqueados.append(logro['nombre'])
-
+            if notificar_discord(usuario, logro['nombre'], logro['recompensa']):
+                    print("Notificación enviada a Discord")
+     
 
     elif evento == 'arriesgado':
         logro = LOGROS[evento]
@@ -76,6 +86,9 @@ def verificar_logros(usuario, evento, contexto=None):
         if not ya_obtenido:
             usuario['logros']['logros_obtenidos'].append(logro)
             logros_desbloqueados.append(logro['nombre'])
+            if notificar_discord(usuario, logro['nombre'], logro['recompensa']):
+                    print("Notificación enviada a Discord")
+
 
     
     return logros_desbloqueados

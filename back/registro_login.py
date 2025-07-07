@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import json
 import re
 
@@ -18,6 +18,8 @@ def validar_contrasena(contrasena):
     - 8+ caracteres
     - 1 mayúscula   
     - 1 carácter especial
+    parametros: contrasena (str): Contraseña a validar.
+    Retorna: bool: True si la contraseña es válida, False en caso contrario.
     """
     caracteres_especiales = "!@#$%^&*(),.?\":{}|<>"
     return (len(contrasena) >= 8 and 
@@ -25,35 +27,102 @@ def validar_contrasena(contrasena):
             any(c in caracteres_especiales for c in contrasena))
 
 def registro_usuario():
-    """Registro de usuario con validación de matriz de datos"""
+    """Registro de usuario con validación de matriz de datos
+    Parametros: validaciones (list): Lista de validaciones a aplicar.
+    Cada validación es una tupla con (condición, mensaje_error).
+    Retorna: el usuario registrado o None si se cancela."""
     # Matriz de validaciones: [(condición, mensaje_error)]
     validaciones = [
+        
         (lambda e: e >= 18, "Debes ser mayor de edad"),
+        (lambda e: e <= 100, "Edad no válida"),
+        (lambda e: isinstance(e, int), "Edad debe ser un número entero"),
+        (lambda n: isinstance(n, str) and len(n) > 0, "Nombre no puede estar vacío"),
+        (lambda n: re.match(r'^[a-zA-Z\s]+$', n) is not None, "Nombre solo puede contener letras y espacios"),
+        (lambda n: len(n) <= 50, "Nombre no puede exceder 50 caracteres"),
+        (lambda n: isinstance(n, str), "Nombre debe ser una cadena de texto"),
+        (lambda n: n.strip() != "", "Nombre no puede estar vacío"),
+        (lambda n: n.strip() != " ", "Nombre no puede ser solo espacios"),
         (lambda n: len(n) > 0, "Nombre no válido"),
+        (lambda c: len(c) > 0, "Correo no puede estar vacío"),
         (lambda c: re.match(r'^.+@.+\..+$', c) is not None, "Correo no es valido. Intentelo nuevamente"),
         (lambda c: not any(u['correo'] == c for u in usuarios), "Correo ya existe")
+        
     ]
     
-    # Usando map y filter para validaciones
-    edad = int(input("Edad: "))
-    if not validaciones[0][0](edad):
-        print(validaciones[0][1])
-        return
+    while True:
+        # Validación de edad
+        while True:
+            edad_input = input("Edad: ")
+            if edad_input.lower() == 'cancelar':
+                print("Registro cancelado.")
+                return
+            
+            try:
+                edad = int(edad_input)
+                if not validaciones[0][0](edad):
+                    print(validaciones[0][1])
+                elif not validaciones[1][0](edad):
+                    print(validaciones[1][1])
+                else:
+                    break
+            except ValueError:
+                print("La edad debe ser un número entero.")
 
-    nombre = input("Nombre: ")
-    correo = input("Correo: ")
-    
-    # Validación con operador in
-    if any(not v[0](correo) for v in validaciones[2:]):
-        print(next(v[1] for v in validaciones[2:] if not v[0](correo)))
-        return
+        # Validación de nombre
+        while True:
+            nombre = input("Nombre: ")
+            if nombre.lower() == 'cancelar':
+                print("Registro cancelado.")
+                return
+            
+            if not validaciones[3][0](nombre):
+                print(validaciones[3][1])
+            elif not validaciones[4][0](nombre):
+                print(validaciones[4][1])
+            elif not validaciones[5][0](nombre):
+                print(validaciones[5][1])
+            else:
+                break
 
-    contrasena = input("Contraseña: (La contraseña debe incluir 1 mayuscula, 1 caracter especial y debe ser de por lo menos 8 caracteres)")
-    if not validar_contrasena(contrasena):
-        print("Contraseña no cumple requisitos")
-        return
+        # Validación de correo
+        while True:
+            correo = input("Correo: ")
+            if correo.lower() == 'cancelar':
+                print("Registro cancelado.")
+                return
+            
+            if not validaciones[10][0](correo):
+                print(validaciones[10][1])
+            elif not validaciones[11][0](correo):
+                print(validaciones[11][1])
+            elif not validaciones[12][0](correo):
+                print(validaciones[12][1])
+            else:
+                break
 
-    # Diccionario con datos del usuario
+        # Validación de contraseña
+        while True:
+            contrasena = input("Contraseña (debe incluir 1 mayúscula, 1 carácter especial y 8+ caracteres): ")
+            if contrasena.lower() == 'cancelar':
+                print("Registro cancelado.")
+                return
+            
+            if validar_contrasena(contrasena):
+                break
+            else:
+                print(validaciones[13][1])
+
+        # Confirmación final
+        confirmacion = input(f"\n¿Confirmar registro? (s/n): ").lower()
+        if confirmacion == 's':
+            break
+        elif confirmacion == 'n':
+            print("Reiniciando registro...\n")
+        else:
+            print("Opción no válida. Reiniciando registro...\n")
+
+    # Creación del usuario
     nuevo_usuario = {
         "id": generar_id(),
         "nombre": nombre,
@@ -62,16 +131,17 @@ def registro_usuario():
         "saldo": 1000,
         "edad": edad,
         "ultima_recarga": datetime.now(),
+        "ultima_recarga_diaria": None,
         "ultimo_login": None,
-        "historial": [],  # Lista para historial de juegos
-        "logros": []
+        "historial": [],
+        "logros": {"logros_obtenidos": []}
     }
     
     usuarios.append(nuevo_usuario)
-    # guardar_usuarios()
-    guardar_usuarios_json()
-    print("¡Registro exitoso!")
-
+    guardar_usuarios_json(nuevo_usuario)
+    print("\n¡Registro exitoso!")
+    
+    
 def eliminar_usuario():
     """Elimina un usuario después de confirmación"""
     mostrar_usuarios()
@@ -102,7 +172,7 @@ def login_usuario(correo, contrasena, api = False):
     Si la fecha de última recarga es anterior a hoy, añade 1000 al saldo.
     """
     cargar_usuarios_json()
-
+    
     if not api:
         correo = input("Ingrese su correo: ")
         contrasena = input("Ingrese su contraseña: ")
@@ -115,16 +185,6 @@ def login_usuario(correo, contrasena, api = False):
     if usuario:
         ahora = datetime.now()
         usuario['ultimo_login'] = ahora
-        
-        # Verificar si la última recarga fue antes de hoy
-        fecha_ultima_recarga = usuario['ultima_recarga'].date()
-        fecha_hoy = ahora.date()
-        
-        if fecha_ultima_recarga < fecha_hoy:
-            usuario['saldo'] += 1000
-            usuario['ultima_recarga'] = ahora
-            guardar_usuarios_json()  # Guarda los cambios en el saldo
-            print(f"¡Recarga diaria de +1000 aplicada! Nuevo saldo: {usuario['saldo']}")
         
         print(f"Bienvenido {usuario['nombre']}")
         return usuario
@@ -156,55 +216,78 @@ def mostrar_usuarios():
         fecha_recarga = u['ultima_recarga'].strftime("%d-%m-%Y - %H:%M")
         print(f"{u['id']} | {u['nombre']} | {u['correo']} | {u['saldo']} | {fecha_recarga}")
 
-def guardar_usuarios_json(usuario, filename='./usuarios.json'):
+def guardar_usuarios_json(usuario=None, filename='./usuarios/usuarios.json'):
     """
     Guarda un usuario en el archivo JSON, actualizándolo si ya existe por ID.
     Convierte datetime a string para serialización.
     """
-    os.makedirs('./', exist_ok=True)
-
+    # Validación de usuario
+    if usuario is None:
+        print("Error: No se proporcionó usuario para guardar")
+        return False
+    
     try:
-        with open(filename, 'r', encoding='utf-8') as f:
-            usuarios = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        usuarios = []
+        # Crear directorio si no existe
+        os.makedirs(os.path.dirname(filename), exist_ok=True)  
 
-    usuario_serializable = usuario.copy()
-    if isinstance(usuario_serializable.get('ultima_recarga'), datetime):
-        usuario_serializable['ultima_recarga'] = usuario_serializable['ultima_recarga'].isoformat()
-    if isinstance(usuario_serializable.get('ultimo_login'), datetime):
-        usuario_serializable['ultimo_login'] = usuario_serializable['ultimo_login'].isoformat()
+        try:
+            with open(filename, 'r', encoding='utf-8') as f:
+                usuarios = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            usuarios = []
+    
+        usuario_serializable = usuario.copy()
+        
+        for key, value in usuario_serializable.items():
+            if isinstance(value, datetime):
+                usuario_serializable[key] = value.isoformat()
+            elif key == 'logros' and isinstance(value, dict):
+                # Serializar fechas en logros si las hubiera
+                for logro in value.get('logros_obtenidos', []):
+                    if 'fecha' in logro and isinstance(logro['fecha'], datetime):
+                        logro['fecha'] = logro['fecha'].isoformat()
 
-    actualizado = False
-    for i, u in enumerate(usuarios):
-        if u.get('id') == usuario_serializable['id']:
-            usuarios[i] = usuario_serializable
-            actualizado = True
-            break
-    if not actualizado:
-        usuarios.append(usuario_serializable)
+        # Actualizar o añadir usuario
+        actualizado = False
+        for i, u in enumerate(usuarios):
+            if u.get('id') == usuario_serializable['id']:
+                usuarios[i] = usuario_serializable
+                actualizado = True
+                break
+        
+        if not actualizado:
+            usuarios.append(usuario_serializable)
 
-    try:
+        # Guardar cambios
         with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(usuarios, f, indent=4)
+            json.dump(usuarios, f, indent=4, ensure_ascii=False)
+        
         print("Usuario guardado correctamente.")
-    except Exception as e:
-        print(f"Error al guardar el usuario: {str(e)}")
+        return True
 
+    except Exception as e:
+        print(f"Error crítico al guardar usuario: {str(e)}")
+        return False
 
 def cargar_usuarios_json():
     """Carga usuarios desde archivo JSON"""
     global usuarios
     try:
-        if os.path.exists('./usuarios.json'):
-            with open('./usuarios.json', 'r') as f:
+        if os.path.exists('./usuarios/usuarios.json'):
+            with open('./usuarios/usuarios.json', 'r', encoding='utf-8') as f:
                 usuarios = json.load(f)
                 for u in usuarios:
-                    u['ultima_recarga'] = datetime.fromisoformat(u['ultima_recarga'])
-                    if u['ultimo_login']:
+                    # Convertir strings ISO de vuelta a datetime
+                    if 'ultima_recarga' in u:
+                        u['ultima_recarga'] = datetime.fromisoformat(u['ultima_recarga'])
+                    if 'ultima_recarga_diaria' in u and u['ultima_recarga_diaria']:
+                        u['ultima_recarga_diaria'] = datetime.fromisoformat(u['ultima_recarga_diaria'])
+                    if 'ultimo_login' in u and u['ultimo_login']:
                         u['ultimo_login'] = datetime.fromisoformat(u['ultimo_login'])
-                    else:
-                        u['ultimo_login'] = None
+                    if 'logros' in u:
+                        for logro in u['logros'].get('logros_obtenidos', []):
+                            if 'fecha' in logro and logro['fecha']:
+                                logro['fecha'] = datetime.fromisoformat(logro['fecha'])
         else:
             usuarios = []
     except Exception as e:
@@ -221,6 +304,8 @@ def obtener_opciones_menu():
         "7. Salir" if usuario_actual else ""
     ]
     return [op for op in opciones_base if op] 
+
+
 def mostrar_menu():
     print("\n".join(obtener_opciones_menu()))
 
@@ -240,7 +325,7 @@ while True:
         registro_usuario()
     elif opcion == "2":
         if usuario_actual:
-               # Mostrar perfil del usuario logueado
+               
             print("\n--- Mi Perfil ---")
             print(f"Nombre: {usuario_actual['nombre']}")
             print(f"Correo: {usuario_actual['correo']}")
@@ -268,7 +353,7 @@ while True:
         if usuario_actual:
             from juego import jugar_blackjack
             usuario_actual = jugar_blackjack(usuario_actual)
-            guardar_usuarios_json(usuario_actual)# Guarda los cambios en el saldo
+            guardar_usuarios_json(usuario_actual)
             input("\nPresione Enter para continuar...")
         else:
             print("Saliendo del sistema...")

@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "nombre": "daniel",
+        "correo": "dani@hotmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 88,
+        "edad": 29,
+        "ultima_recarga": "2025-07-07T00:45:08.510875",
+        "ultima_recarga_diaria": "2025-07-07T01:36:29.799056",
+        "ultimo_login": "2025-07-07T01:37:40.798782",
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [
+                {
+                    "id": 1,
+                    "nombre": "Primer juego",
+                    "descripcion": "Jugar por primera vez",
+                    "recompensa": 500
+                },
+                {
+                    "id": 4,
+                    "nombre": "Arriesgado",
+                    "descripcion": "Apostar más de 1000 en una jugada",
+                    "recompensa": 700
+                }
+            ]
+        }
+    }
+]

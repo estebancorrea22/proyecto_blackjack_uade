@@ -3,7 +3,7 @@ from apuestas import realizar_apuesta, doblar_apuesta
 from funcion_calcular_pago import calcular_pago  
 from logros import verificar_logros
 from recompensas import aplicar_recompensa, mostrar_logros
-from functools import reduce
+from datetime import datetime, timedelta
 
 def mostrar_reglas():
     print("\n--- REGLAS DEL BLACKJACK ---")
@@ -59,6 +59,43 @@ def jugar_blackjack(usuario):
     print(f"Saldo actual: ${usuario['saldo']:,}")
     mostrar_reglas()
 
+    
+    ahora = datetime.now()
+    saldo_actual = usuario['saldo']
+    
+    if saldo_actual <= 100:
+        if usuario.get('ultima_recarga_diaria'):
+            tiempo_transcurrido = ahora - usuario['ultima_recarga_diaria']
+            if tiempo_transcurrido >= timedelta(hours=24):
+                if saldo_actual < 1000:
+                    usuario['saldo'] += 1000
+                    usuario['ultima_recarga_diaria'] = ahora
+                    print(f"\n¡Recarga diaria de +1000 aplicada! Nuevo saldo: ${usuario['saldo']:,}")
+            else:
+                tiempo_restante = timedelta(hours=24) - tiempo_transcurrido
+                horas = tiempo_restante.seconds // 3600
+                minutos = (tiempo_restante.seconds % 3600) // 60
+                
+                if saldo_actual <= 0:
+                    print("\n¡Fondos insudicientes!")
+                    print(f"Prueba nuevamente en {horas} horas y {minutos} minutos.")
+                    return usuario
+        else:
+            
+            if saldo_actual < 100:
+                usuario['saldo'] += 1000
+                usuario['ultima_recarga_diaria'] = ahora
+                print("\n¡Recarga diaria de $1000 aplicada!")
+                print(f"Nuevo saldo: ${usuario['saldo']:,}")
+
+    # Si después de verificar recarga sigue con $0 o menos
+    if usuario['saldo'] <= 0:
+        print("\n¡No tienes fondos suficientes para jugar!")
+        return usuario
+
+    print(f"\n¡Bienvenido al Blackjack, {usuario['nombre']}!")
+    print(f"Saldo actual: ${usuario['saldo']:,}")
+    
     logros_desbloqueados = verificar_logros(usuario, 'primer_juego')
     for logro_id in logros_desbloqueados:
         aplicar_recompensa(usuario, logro_id)
@@ -134,5 +171,4 @@ def jugar_blackjack(usuario):
     
     return usuario
 
-   
    
