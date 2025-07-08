@@ -124,5 +124,48 @@
         "ultimo_login": null,
         "historial": [],
         "logros": {}
+    },
+    {
+        "id": 6,
+        "nombre": "caro",
+        "correo": "caro@hotmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 0,
+        "edad": 21,
+        "ultima_recarga": "2025-07-07T21:08:27.545547",
+        "ultima_recarga_diaria": null,
+        "ultimo_login": "2025-07-07T21:08:38.554507",
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": [
+                {
+                    "id": 1,
+                    "nombre": "Primer juego",
+                    "descripcion": "Jugar por primera vez",
+                    "recompensa": 500
+                },
+                {
+                    "id": 4,
+                    "nombre": "Arriesgado",
+                    "descripcion": "Apostar más de 1000 en una jugada",
+                    "recompensa": 700
+                }
+            ]
+        }
+    },
+    {
+        "id": 7,
+        "nombre": "mica",
+        "correo": "mica@hotmail.com",
+        "contrasena": "Dani8042@",
+        "saldo": 1000,
+        "edad": 20,
+        "ultima_recarga": "2025-07-07T21:19:29.974609",
+        "ultima_recarga_diaria": null,
+        "ultimo_login": null,
+        "historial": [],
+        "logros": {
+            "logros_obtenidos": []
+        }
     }
 ]
