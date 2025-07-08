@@ -72,6 +72,17 @@ function App() {
       })
   }
 
+  const handleApuestaUp = () => {
+    if (apuesta + 100 < user.saldo) {
+      setApuesta(apuesta + 100)
+    }
+  }
+
+  const handleApuestaDown = () => {
+    if (apuesta == 100) return
+
+    setApuesta(apuesta - 100)
+  }
   const determineWinner = async (totalDealer) => {
     const data = { estado_jugador: status, total_jugador: totalPlayer, estado_crupier: dealerStatus, total_crupier: totalDealer };
     console.log('data', data);
@@ -285,6 +296,12 @@ function App() {
             <div style={{ fontSize: '24px', marginTop: '20px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '5px' }}>
               Apostado: <SiUmbraco />{apuesta}
             </div>
+            {playerDices.length < 1 &&
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', gap: '10px' }} onClick={() => { }}>
+                <div onClick={handleApuestaDown} className='bet'>-</div>
+                <div onClick={handleApuestaUp} className='bet'>+</div>
+              </div>
+            }
 
           </div>
           <div className='play-container'>
@@ -323,7 +340,7 @@ function App() {
           <>
 
             <h2 style={{ fontSize: '48px' }}>Lo siento, has perdido.</h2>
-            <h3 style={{ fontSize: '28px' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
+            <h3 style={{ fontSize: '28px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
           </>
           <div className='button' onClick={() => { setLostGameModalOpen(false) }}>Cerrar</div>
         </div>
@@ -333,7 +350,7 @@ function App() {
           <>
 
             <h2 style={{ fontSize: '48px' }}>BLACKJACK. Has ganado!</h2>
-            <h3 style={{ fontSize: '28px' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
+            <h3 style={{ fontSize: '28px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
           </>
           <div className='button' onClick={() => { setBlackjackGameModalOpen(false) }}>Cerrar</div>
         </div>
@@ -343,7 +360,7 @@ function App() {
           <>
 
             <h2 style={{ fontSize: '48px' }}>Has empatado.</h2>
-            <h3 style={{ fontSize: '28px' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
+            <h3 style={{ fontSize: '28px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
           </>
           <div className='button' onClick={() => { setTieGameModalOpen(false) }}>Cerrar</div>
         </div>
@@ -353,7 +370,7 @@ function App() {
           <>
 
             <h2 style={{ fontSize: '48px' }}>Has ganado!.</h2>
-            <h3 style={{ fontSize: '28px' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
+            <h3 style={{ fontSize: '28px', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>Tu nuevo saldo es de: <SiUmbraco />{user.saldo}</h3>
           </>
           <div className='button' onClick={() => { setWonGameModalOpen(false) }}>Cerrar</div>
         </div>
