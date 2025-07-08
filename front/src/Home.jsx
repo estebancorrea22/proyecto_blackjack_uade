@@ -110,7 +110,7 @@ const Home = ({ }) => {
                             <div key={index} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', border: '4px solid black', borderRadius: '8px', marginBottom: '10px', backgroundColor: '#f9f9f9', justifyContent: 'space-between', padding: '10px' }}>
                                 <div style={{ width: '100%', }} key={index}>
                                     <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{user.nombre}</div>
-                                    <div style={{ fontSize: '18px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4px' }}>Saldo: <SiUmbraco />{user.saldo}</div>
+                                    {/* <div style={{ fontSize: '18px', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '4px' }}>Saldo: <SiUmbraco />{user.saldo}</div> */}
                                 </div>
                                 <div style={{ width: '100%' }} >
                                     <div style={{ fontSize: '18px', color: '#222' }}>Logros obtenidos: {user.logros?.logros_obtenidos?.length}</div>

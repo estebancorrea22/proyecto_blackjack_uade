@@ -262,7 +262,7 @@ function App() {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%', padding: '20px' }}>
       <div style={{ textAlign: 'center', backgroundColor: '#fee429', minWidth: '60%', border: '8px solid black', borderRadius: '8px', display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
         <div style={{ width: '100%', backgroundColor: '#ff60b1' }}>
-          <h1 style={{ fontSize: '84px', margin: 0, fontFamily: 'Satoshi-Black', borderBottom: '8px solid black' }}>BLACKJACK</h1>
+          <h1 style={{ fontSize: '84px', margin: 0, fontFamily: 'Satoshi-Black', borderBottom: '8px solid black' }}>BLACKJACK DICE</h1>
         </div>
         <div style={{ display: 'flex', width: '100%', flexDirection: 'row', height: '100%', borderBottom: '8px solid black' }}>
           <div className='player-container' style={{ backgroundColor: '#65c93a' }}>DEALER</div>
