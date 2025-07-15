@@ -347,63 +347,63 @@ def mostrar_menu():
     # cargar_usuarios()
     cargar_usuarios_json()
     # Menu principal
-while True:
+# while True:
   
-    print("\n--- Sistema de Usuarios ---")
-    if usuario_actual:
-        print(f"Usuario actual: {usuario_actual['nombre']} (Saldo: {usuario_actual['saldo']})")
-    mostrar_menu()
+#     print("\n--- Sistema de Usuarios ---")
+#     if usuario_actual:
+#         print(f"Usuario actual: {usuario_actual['nombre']} (Saldo: {usuario_actual['saldo']})")
+#     mostrar_menu()
         
-    opcion = input("\nSeleccione una opción: ")
+#     opcion = input("\nSeleccione una opción: ")
         
-    if opcion == "1":
-        registro_usuario()
-    elif opcion == "2":
-        if usuario_actual:   
-            print("\n--- Mi Perfil ---")
-            print(f"Nombre: {usuario_actual['nombre']}")
-            print(f"Correo: {usuario_actual['correo']}")
-            print(f"Edad: {usuario_actual['edad']}")
-            print(f"Saldo: {usuario_actual['saldo']}")
-            from recompensas import mostrar_logros
-            mostrar_logros(usuario_actual)
-            input("\nPresione Enter para continuar...")
-        else:
-            usuario = login_usuario('', '', False)
-            if usuario:
-                usuario_actual = usuario
-                print(f"Tu saldo actual es: {usuario_actual['saldo']}")
-                input("\nPresione Enter para continuar...")
-    elif opcion == "3":
-        mostrar_usuarios()
+#     if opcion == "1":
+#         registro_usuario()
+#     elif opcion == "2":
+#         if usuario_actual:   
+#             print("\n--- Mi Perfil ---")
+#             print(f"Nombre: {usuario_actual['nombre']}")
+#             print(f"Correo: {usuario_actual['correo']}")
+#             print(f"Edad: {usuario_actual['edad']}")
+#             print(f"Saldo: {usuario_actual['saldo']}")
+#             from recompensas import mostrar_logros
+#             mostrar_logros(usuario_actual)
+#             input("\nPresione Enter para continuar...")
+#         else:
+#             usuario = login_usuario('', '', False)
+#             if usuario:
+#                 usuario_actual = usuario
+#                 print(f"Tu saldo actual es: {usuario_actual['saldo']}")
+#                 input("\nPresione Enter para continuar...")
+#     elif opcion == "3":
+#         mostrar_usuarios()
         
-        input("\nPresione Enter para continuar...")
-    elif opcion == "4":
-        eliminar_usuario()
-        if usuario_actual and usuario_actual not in usuarios:  
-            usuario_actual = None
-        input("\nPresione Enter para continuar...")
-    elif opcion == "5":
-        if usuario_actual:
-            if usuario_actual['saldo'] < 100:
-                print("\nNo tienes saldo suficiente para jugar (mínimo $100).")
-                input("Presione Enter para volver al menú principal...")
-                continue
-            from juego import jugar_blackjack
-            usuario_actual = jugar_blackjack(usuario_actual)
-            guardar_usuarios_json(usuario_actual)
-            input("\nPresione Enter para continuar...")
-        else:
-            print("Saliendo del sistema...")
-            break
-    elif opcion == "6" and usuario_actual:
+#         input("\nPresione Enter para continuar...")
+#     elif opcion == "4":
+#         eliminar_usuario()
+#         if usuario_actual and usuario_actual not in usuarios:  
+#             usuario_actual = None
+#         input("\nPresione Enter para continuar...")
+#     elif opcion == "5":
+#         if usuario_actual:
+#             if usuario_actual['saldo'] < 100:
+#                 print("\nNo tienes saldo suficiente para jugar (mínimo $100).")
+#                 input("Presione Enter para volver al menú principal...")
+#                 continue
+#             from juego import jugar_blackjack
+#             usuario_actual = jugar_blackjack(usuario_actual)
+#             guardar_usuarios_json(usuario_actual)
+#             input("\nPresione Enter para continuar...")
+#         else:
+#             print("Saliendo del sistema...")
+#             break
+#     elif opcion == "6" and usuario_actual:
         
-        logout()
-        input("\nPresione Enter para continuar...")
-    elif opcion == "7" and usuario_actual:
+#         logout()
+#         input("\nPresione Enter para continuar...")
+#     elif opcion == "7" and usuario_actual:
         
-        print("Saliendo del sistema...")
-        break
-    else:
-        print("Opción no válida. Intente de nuevo.")
-        input("\nPresione Enter para continuar...")
+#         print("Saliendo del sistema...")
+#         break
+#     else:
+#         print("Opción no válida. Intente de nuevo.")
+#         input("\nPresione Enter para continuar...")
